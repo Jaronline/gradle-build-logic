@@ -1,0 +1,21 @@
+root:
+  - changed-files:
+      - any-glob-to-any-file:
+          - build.gradle.kts
+          - settings.gradle.kts
+buildSrc:
+  - changed-files:
+      - any-glob-to-any-file:
+          - buildSrc/*
+          - buildSrc/**/*
+gradlew:
+  - changed-files:
+      - any-glob-to-any-file:
+          - gradle/wrapper/*
+          - gradle/wrapper/**/*
+          - gradlew
+          - gradlew.bat
+versions:
+  - changed-files:
+      - any-glob-to-any-file:
+          - gradle/libs.versions.toml

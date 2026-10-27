@@ -1,0 +1,111 @@
+name: Release
+run-name: Release Gradle Build Logic
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}|${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  JAVA_DISTRIBUTION: ${{ vars.JAVA_DISTRIBUTION || 'microsoft' }}
+  JAVA_VERSION: ${{ vars.JAVA_VERSION || 25 }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: main
+          fetch-tags: true
+          ssh-key: ${{ secrets.CI_SSH_AUTH_KEY }}
+      - name: Setup Java
+        uses: actions/setup-java@v6.1.0
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6.4.0
+      - name: Setup SSH Signing Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ env.SSH_SIGNING_KEY }}" > ~/.ssh/signing_key
+          chmod 600 ~/.ssh/signing_key
+          ssh-keygen -y -f ~/.ssh/signing_key > ~/.ssh/signing_key.pub
+        env:
+          SSH_SIGNING_KEY: ${{ secrets.CI_SSH_SIGNING_KEY }}
+      - name: Configure Git
+        run: |
+          git config --local user.email "${{ env.GITHUB_EMAIL }}"
+          git config --local user.name "${{ env.GITHUB_USER }}"
+          git config --local gpg.format ssh
+          git config --local user.signingkey ~/.ssh/signing_key.pub
+          git config --local commit.gpgsign true
+          git config --local tag.gpgsign true
+        env:
+          GITHUB_USER: ${{ vars.CI_USER }}
+          GITHUB_EMAIL: ${{ vars.CI_EMAIL }}
+      - name: Get Gradle properties
+        id: next_version
+        run: |
+          version="$(./gradlew :properties --property=version -q | grep -Po '(?<=version: ).*')"
+          echo version="$version" >> "$GITHUB_OUTPUT"
+          echo tag="v$version" >> "$GITHUB_OUTPUT"
+      - name: Check tag existence
+        run: |
+          if git rev-parse "${{ steps.next_version.outputs.tag }}" >/dev/null 2>&1; then
+            echo ::error::Tag ${{ steps.next_version.outputs.tag }} already exists!
+            exit 1
+          fi
+          exit 0
+      - name: Patch changelog
+        run: |
+          ./gradlew :patchChangelog
+      - name: Check changes in CHANGELOG.md
+        run: |
+          if git diff --exit-code CHANGELOG.md >/dev/null 2>&1; then
+            echo ::error::No changes found for release ${{ steps.next_version.outputs.version }}!
+            exit 1
+          fi
+          exit 0
+      - name: Get release notes
+        run: |
+          ./gradlew :getChangelog --no-header --no-empty-sections --project-version=${{ steps.next_version.outputs.version }} --output-file=release-notes.md
+      - name: Commit changelog
+        run: |
+          git add CHANGELOG.md
+          git commit -m "chore: release ${{ steps.next_version.outputs.tag }}"
+          git pull --rebase origin main
+          git push origin main
+      - name: Create tag
+        run: |
+          git tag -s -m "${{ steps.next_version.outputs.tag }}" ${{ steps.next_version.outputs.tag }}
+          git push --tags origin
+      - name: Parse SemVer
+        id: semver
+        uses: Jaronline/actions/semver@main
+        with:
+          version: ${{ steps.next_version.outputs.version }}
+      - name: Check Prerelease
+        id: prerelease
+        run: |
+          echo is_prerelease="${{ (steps.semver.outputs.major == '0' || steps.semver.outputs.prerelease != '') && 'true' || 'false' }}" >> "$GITHUB_OUTPUT"
+      - name: Create prerelease
+        if: steps.prerelease.outputs.is_prerelease == 'true'
+        run: |
+          gh release create ${{ steps.next_version.outputs.tag }} --latest --notes-file release-notes.md --verify-tag --prerelease
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create release
+        if: steps.prerelease.outputs.is_prerelease == 'false'
+        run: |
+          gh release create ${{ steps.next_version.outputs.tag }} --latest --notes-file release-notes.md --verify-tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

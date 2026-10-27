@@ -1,0 +1,4 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>jaronline/.github//renovate/gradle/base", "github>jaronline/.github//renovate/github/actions"]
+}

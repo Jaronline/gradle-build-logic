@@ -1,0 +1,23 @@
+[versions]
+# Common
+java = "25"
+kotlin = "2.4.21"
+
+# Plugins
+plugin-changelog = "2.5.0"
+plugin-spotless-changelog = "3.1.2"
+plugin-dokka = "2.2.0"
+plugin-spotless = "8.10.4"
+
+[libraries]
+# Plugins
+# https://plugins.gradle.org/plugin/org.jetbrains.changelog
+plugin-changelog = { group = "org.jetbrains.changelog", name = "org.jetbrains.changelog.gradle.plugin", version.ref = "plugin-changelog" }
+# https://plugins.gradle.org/plugin/com.diffplug.spotless-changelog
+plugin-spotless-changelog = { group = "com.diffplug.spotless-changelog", name = "spotless-changelog-plugin-gradle", version.ref = "plugin-spotless-changelog" }
+# https://plugins.gradle.org/plugin/org.jetbrains.dokka
+plugin-dokka = { group = "org.jetbrains.dokka", name = "org.jetbrains.dokka.gradle.plugin", version.ref = "plugin-dokka" }
+# https://plugins.gradle.org/plugin/com.diffplug.spotless
+plugin-spotless = { group = "com.diffplug.spotless", name = "com.diffplug.spotless.gradle.plugin", version.ref = "plugin-spotless" }
+
+[plugins]

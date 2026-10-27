@@ -1,0 +1,6 @@
+extends:
+  - "Jaronline/.github:.github/labels/gradle/projects/root.yml"
+  - "Jaronline/.github:.github/labels/gradle/projects/build-src.yml"
+  - "Jaronline/.github:.github/labels/gradle/wrapper.yml"
+  - "Jaronline/.github:.github/labels/gradle/version-catalogs.yml"
+labels: []
