@@ -30,3 +30,7 @@ runCatching {
 }
 
 rootProject.name = "gradle-build-logic"
+include(
+	"common",
+	"kotlin",
+)

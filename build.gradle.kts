@@ -1,7 +1,12 @@
 plugins {
 	id("dev.jaronline.project")
-	id("dev.jaronline.kotlin")
 	id("dev.jaronline.kotlin.formatting")
+	id("dev.jaronline.report.jacoco.aggregation")
+	`kotlin-dsl` apply false
+}
+
+dependencies {
+	jacocoAggregation(project(":kotlin"))
 }
 
 spotless {
