@@ -10,6 +10,7 @@ import org.gradle.kotlin.dsl.the
 abstract class BuildPropertiesExtension(private val project: Project) {
     val libs = findVersionCatalog("libs")
 
+    val vendor = gradleProperty("vendor")
 	val groupId = gradleProperty("group_id")
 	val githubUrl = gradleProperty("github_url")
 

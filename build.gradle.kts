@@ -6,6 +6,7 @@ plugins {
 	id("dev.jaronline.report.jacoco.aggregation")
 	`kotlin-dsl` apply false
 	id("org.jetbrains.dokka")
+	id("dev.jaronline.jar")
 }
 
 val dependencyClasses =

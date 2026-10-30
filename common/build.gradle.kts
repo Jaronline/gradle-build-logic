@@ -1,5 +1,6 @@
 plugins {
 	`kotlin-dsl`
+	id("dev.jaronline.jar")
 	id("org.jetbrains.dokka")
 	id("jacoco")
 }
