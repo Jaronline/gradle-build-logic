@@ -1,5 +1,8 @@
 plugins {
 	`kotlin-dsl`
+	id("dev.jaronline.jar")
+	id("org.jetbrains.dokka")
+	id("jacoco")
 }
 
 repositories {
@@ -25,4 +28,18 @@ sourceSets {
 		kotlin.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}
+}
+
+java {
+	withSourcesJar()
+}
+
+@Suppress("TaskMissingDescription")
+val javadocJar = tasks.register<Jar>("javadocJar") {
+	from(tasks.dokkaGeneratePublicationHtml.flatMap { it.outputDirectory })
+	archiveClassifier.set("javadoc")
+}
+
+tasks.build {
+	dependsOn(javadocJar)
 }
