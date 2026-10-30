@@ -1,6 +1,7 @@
 plugins {
 	id("dev.jaronline.build-properties")
 	`kotlin-dsl`
+	id("org.jetbrains.dokka")
 	id("dev.jaronline.test")
 	id("dev.jaronline.report.jacoco")
 }
@@ -39,4 +40,18 @@ sourceSets {
 		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}
+}
+
+java {
+	withSourcesJar()
+}
+
+@Suppress("TaskMissingDescription")
+val javadocJar = tasks.register<Jar>("javadocJar") {
+	from(tasks.dokkaGeneratePublicationHtml.flatMap { it.outputDirectory })
+	archiveClassifier.set("javadoc")
+}
+
+tasks.build {
+	dependsOn(javadocJar)
 }
