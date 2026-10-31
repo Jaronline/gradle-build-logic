@@ -14,11 +14,33 @@ abstract class BuildPropertiesExtension(private val project: Project) {
 	val groupId = gradleProperty("group_id")
 	val githubUrl = gradleProperty("github_url")
 
+    val projectName = gradleProperty("name")
+    val projectDescription = gradleProperty("description")
+    val projectInceptionYear = gradleProperty("inception_year")
+    val projectLicense = gradleProperty("license")
+    val projectLicenseUrl = gradleProperty("license_url")
+    val projectLicenseDistribution = gradleProperty("license_distribution")
+    val developerId = gradleProperty("developer_id")
+    val developerName = gradleProperty("developer_name")
+    val developerUrl = gradleProperty("developer_url")
+    val developerEmail = gradleProperty("developer_email")
+    val developerOrganization = gradleProperty("developer_organization")
+    val developerOrganizationUrl = gradleProperty("developer_organization_url")
+
+    val projectVersion = gradleProperty("version")
+
 	val javaVersion = versionLookup("java")
+
+    val githubActor = environmentVariable("GITHUB_ACTOR").orNull
+    val githubToken = environmentVariable("GITHUB_TOKEN").orNull
 
 	fun gradleProperty(propertyName: String): Provider<String> {
 		return project.providers.gradleProperty(propertyName)
 	}
+
+    fun environmentVariable(variableName: String): Provider<String> {
+        return project.providers.environmentVariable(variableName)
+    }
 
     fun versionLookup(id: String): GeoVersionConstraint {
         return GeoVersionConstraint(project.provider {

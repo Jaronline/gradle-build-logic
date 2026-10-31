@@ -26,6 +26,10 @@ gradlePlugin {
 			id = "dev.jaronline.jar"
 			implementationClass = "dev.jaronline.gradle.JarPlugin"
 		}
+		register("publish") {
+			id = "dev.jaronline.publish"
+			implementationClass = "dev.jaronline.gradle.PublishPlugin"
+		}
 	}
 }
 

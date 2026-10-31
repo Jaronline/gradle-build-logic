@@ -7,6 +7,7 @@ plugins {
 	`kotlin-dsl` apply false
 	id("org.jetbrains.dokka")
 	id("dev.jaronline.jar")
+	id("dev.jaronline.publish")
 }
 
 val dependencyClasses =
@@ -82,18 +83,20 @@ val unpackDependencySources =
 		outputDirectory.set(layout.buildDirectory.dir("generated/dependencySources"))
 	}
 
-tasks.named<Jar>("sourcesJar") {
-	from(unpackDependencySources)
-	exclude("**/Readme.md")
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-	archiveClassifier.set("sources")
-}
+val sourcesJar =
+	tasks.named<Jar>("sourcesJar") {
+		from(unpackDependencySources)
+		exclude("**/Readme.md")
+		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+		archiveClassifier.set("sources")
+	}
 
-tasks.named<Jar>("javadocJar") {
-	from(tasks.named("dokkaGeneratePublicationHtml"))
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-	archiveClassifier.set("javadoc")
-}
+val javadocJar =
+	tasks.named<Jar>("javadocJar") {
+		from(tasks.named("dokkaGeneratePublicationHtml"))
+		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+		archiveClassifier.set("javadoc")
+	}
 
 spotless {
 	ratchetFrom = "origin/main"
@@ -109,6 +112,42 @@ spotless {
 		ktlint()
 		leadingSpacesToTabs()
 		endWithNewline()
+	}
+}
+
+publishing {
+	publications {
+		register<MavenPublication>("jar") {
+			artifactId = base.archivesName.get()
+			artifact(tasks.jar)
+			artifact(sourcesJar)
+			artifact(javadocJar)
+
+			pom.withXml {
+				asNode().appendNode("name", buildProperties.projectName.get())
+				asNode().appendNode("description", buildProperties.projectDescription.get())
+				asNode().appendNode("inceptionYear", buildProperties.projectInceptionYear.get())
+				asNode().appendNode("url", "https://${buildProperties.githubUrl.get()}/")
+
+				val license = asNode().appendNode("licenses").appendNode("license")
+				license.appendNode("name", buildProperties.projectLicense.get())
+				license.appendNode("url", buildProperties.projectLicenseUrl.get())
+				license.appendNode("distribution", buildProperties.projectLicenseDistribution.get())
+
+				val developer = asNode().appendNode("developers").appendNode("developer")
+				developer.appendNode("id", buildProperties.developerId.get())
+				developer.appendNode("name", buildProperties.developerName.get())
+				developer.appendNode("url", buildProperties.developerUrl.get())
+				developer.appendNode("email", buildProperties.developerEmail.get())
+				developer.appendNode("organization", buildProperties.developerOrganization.get())
+				developer.appendNode("organizationUrl", buildProperties.developerOrganizationUrl.get())
+
+				val scm = asNode().appendNode("scm")
+				scm.appendNode("url", "https://${buildProperties.githubUrl.get()}/")
+				scm.appendNode("connection", "scm:git:git://${buildProperties.githubUrl.get()}.git")
+				scm.appendNode("developerConnection", "scm:git:ssh://git@${buildProperties.githubUrl.get()}.git")
+			}
+		}
 	}
 }
 
