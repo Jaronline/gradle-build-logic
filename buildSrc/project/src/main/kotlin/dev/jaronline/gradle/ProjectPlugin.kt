@@ -36,7 +36,7 @@ private fun Project.configureProject() {
 	val spotlessChangelog = the<ChangelogExtension>()
 
 	group = buildProperties.groupId.get()
-	version = spotlessChangelog.versionNext
+	version = buildProperties.projectVersion.getOrElse(spotlessChangelog.versionNext)
 
     extensions.configure<JavaPluginExtension> {
         toolchain {
