@@ -6,17 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Move javaVersion property from `jaronline` extension to `jaronline.kotlin` extension
 
 ## [0.1.0] - 2026-10-31
 
