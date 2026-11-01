@@ -12,6 +12,4 @@ class JaronlinePlugin : Plugin<Project> {
 	}
 }
 
-abstract class JaronlineExtension {
-	abstract val javaVersion: Property<JavaLanguageVersion>
-}
+abstract class JaronlineExtension

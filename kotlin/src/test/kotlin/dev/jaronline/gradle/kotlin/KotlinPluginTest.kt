@@ -2,6 +2,7 @@ package dev.jaronline.gradle.kotlin
 
 import dev.jaronline.gradle.common.JaronlineExtension
 import org.gradle.api.Project
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
@@ -19,7 +20,8 @@ class KotlinPluginTest {
 		val project: Project = ProjectBuilder.builder().build()
 		project.pluginManager.apply(KotlinPlugin::class.java)
 
-		project.extensions.configure<JaronlineExtension> {
+		val jaronline = project.extensions.getByType<JaronlineExtension>() as ExtensionAware
+		jaronline.extensions.configure<KotlinExtension> {
 			javaVersion.set(version)
 		}
 
