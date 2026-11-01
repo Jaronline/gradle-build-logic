@@ -45,14 +45,10 @@ sourceSets {
 
 java {
 	withSourcesJar()
+	withJavadocJar()
 }
 
-@Suppress("TaskMissingDescription")
-val javadocJar = tasks.register<Jar>("javadocJar") {
+tasks.named<Jar>("javadocJar") {
 	from(tasks.dokkaGeneratePublicationHtml.flatMap { it.outputDirectory })
 	archiveClassifier.set("javadoc")
-}
-
-tasks.build {
-	dependsOn(javadocJar)
 }
