@@ -19,3 +19,8 @@ versions:
   - changed-files:
       - any-glob-to-any-file:
           - gradle/libs.versions.toml
+"module: formatting":
+  - changed-files:
+      - any-glob-to-any-file:
+          - formatting/*
+          - formatting/**/*

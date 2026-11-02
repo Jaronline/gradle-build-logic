@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Formatting plugin with spotless
+
 ### Changed
 
 - Move javaVersion property from `jaronline` extension to `jaronline.kotlin` extension
