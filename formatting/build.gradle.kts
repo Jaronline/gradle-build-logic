@@ -10,19 +10,25 @@ repositories {
 	gradlePluginPortal()
 }
 
+testing {
+	suites {
+		@Suppress("UnstableApiUsage")
+		register<JvmTestSuite>("functionalTest") {
+			targets {
+				all {
+					testTask.configure {
+						shouldRunAfter(testing.suites.named("test"))
+					}
+				}
+			}
+		}
+	}
+}
+
 dependencies {
 	implementation(project(":common"))
 	implementation(libs.plugin.spotless)
 	testImplementation(kotlin("test", libs.versions.kotlin.get()))
-}
-
-gradlePlugin {
-	plugins {
-		register("formatting") {
-			id = "dev.jaronline.formatting"
-			implementationClass = "dev.jaronline.gradle.formatting.FormattingPlugin"
-		}
-	}
 }
 
 sourceSets {
@@ -34,6 +40,21 @@ sourceSets {
 		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}
+}
+
+val functionalTest = sourceSets.named("functionalTest") {
+	java.setSrcDirs(listOf<String>())
+}
+
+gradlePlugin {
+	plugins {
+		register("formatting") {
+			id = "dev.jaronline.formatting"
+			implementationClass = "dev.jaronline.gradle.formatting.FormattingPlugin"
+		}
+	}
+
+	testSourceSets(functionalTest.get())
 }
 
 java {
