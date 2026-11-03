@@ -22,7 +22,11 @@ private fun Project.configureFormatting() {
 	pluginManager.apply(SpotlessPlugin::class.java)
 
 	val jaronline = the<JaronlineExtension>() as ExtensionAware
-	val formatting = jaronline.extensions.create<FormattingExtension>("formatting")
+	val formatting =
+		jaronline.extensions.create<FormattingExtension>(
+			"formatting",
+			the<SpotlessExtension>(),
+		)
 
 	extensions.configure<SpotlessExtension> {
 		ratchetFrom = formatting.ratchetFrom.orNull
