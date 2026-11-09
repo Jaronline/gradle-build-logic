@@ -89,6 +89,7 @@ jobs:
       - build
       - check
       - test
+      - functional-test
       - verify-lockfile
     if: always()
     runs-on: ubuntu-latest
