@@ -44,7 +44,7 @@ dependencies:
         repo_id: 743626948
     'jaronline/.github@main':
         ref: 'main'
-        commit: 'sha1-7d120e39e6785ef965d40958596517de38c57af1'
+        commit: 'sha1-5cfb654b3481f76075ea5bc1bb3ff5b4a45d49e9'
         owner_id: 102665500
         repo_id: 479295239
     'jaronline/actions@main':

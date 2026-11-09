@@ -93,19 +93,6 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Check Build Result
-        uses: Jaronline/.github/actions/check-job-or-step-result@main
+      - uses: Jaronline/.github/actions/check-workflow-results@main
         with:
-          result: ${{ needs.build.result }}
-      - name: Check Check Result
-        uses: Jaronline/.github/actions/check-job-or-step-result@main
-        with:
-          result: ${{ needs.check.result }}
-      - name: Check Check Result
-        uses: Jaronline/.github/actions/check-job-or-step-result@main
-        with:
-          result: ${{ needs.test.result }}
-      - name: Check GH Check Result
-        uses: Jaronline/.github/actions/check-job-or-step-result@main
-        with:
-          result: ${{ needs.verify-lockfile.result }}
+          results: ${{ toJSON(needs.*.result) }}
