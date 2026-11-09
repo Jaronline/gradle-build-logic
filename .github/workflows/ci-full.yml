@@ -1,0 +1,111 @@
+name: CI-Full
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  JAVA_DISTRIBUTION: ${{ vars.JAVA_DISTRIBUTION || 'microsoft' }}
+  JAVA_VERSION: ${{ vars.JAVA_VERSION || 25 }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+      - name: Setup Java
+        uses: actions/setup-java@v6.1.0
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6.4.1
+      - name: Build
+        run: ./gradlew build -x check test
+
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v6.1.0
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6.4.1
+      - name: Check
+        run: ./gradlew check
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+      - name: Setup Java
+        uses: actions/setup-java@v6.1.0
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6.4.1
+      - name: Check
+        run: ./gradlew test
+
+  functional-test:
+    name: Functional Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+      - name: Setup Java
+        uses: actions/setup-java@v6.1.0
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6.4.1
+      - name: Check
+        run: ./gradlew functionalTest
+
+  verify-lockfile:
+    name: Verify GitHub lockfile
+    uses: Jaronline/.github/.github/workflows/reusable-verify-lockfile.yml@main
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  summary:
+    name: CI Summary
+    needs:
+      - build
+      - check
+      - test
+      - verify-lockfile
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Build Result
+        uses: Jaronline/.github/actions/check-job-or-step-result@main
+        with:
+          result: ${{ needs.build.result }}
+      - name: Check Check Result
+        uses: Jaronline/.github/actions/check-job-or-step-result@main
+        with:
+          result: ${{ needs.check.result }}
+      - name: Check Check Result
+        uses: Jaronline/.github/actions/check-job-or-step-result@main
+        with:
+          result: ${{ needs.test.result }}
+      - name: Check GH Check Result
+        uses: Jaronline/.github/actions/check-job-or-step-result@main
+        with:
+          result: ${{ needs.verify-lockfile.result }}
