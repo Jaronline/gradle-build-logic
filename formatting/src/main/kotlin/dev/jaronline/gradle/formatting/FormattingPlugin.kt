@@ -1,34 +1,18 @@
 package dev.jaronline.gradle.formatting
 
-import com.diffplug.gradle.spotless.SpotlessExtension
+import com.diffplug.gradle.spotless.KotlinGradleExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
-import dev.jaronline.gradle.common.JaronlineExtension
-import dev.jaronline.gradle.common.JaronlinePlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.ExtensionAware
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.the
 
 class FormattingPlugin : Plugin<Project> {
 	override fun apply(project: Project) {
-		project.configureFormatting()
+		project.pluginManager.apply(SpotlessPlugin::class.java)
 	}
 }
 
-private fun Project.configureFormatting() {
-	pluginManager.apply(JaronlinePlugin::class.java)
-	pluginManager.apply(SpotlessPlugin::class.java)
-
-	val jaronline = the<JaronlineExtension>() as ExtensionAware
-	val formatting =
-		jaronline.extensions.create<FormattingExtension>(
-			"formatting",
-			the<SpotlessExtension>(),
-		)
-
-	extensions.configure<SpotlessExtension> {
-		ratchetFrom = formatting.ratchetFrom.orNull
-	}
+fun KotlinGradleExtension.baseJaronlineRules() {
+	ktlint()
+	leadingSpacesToTabs()
+	endWithNewline()
 }

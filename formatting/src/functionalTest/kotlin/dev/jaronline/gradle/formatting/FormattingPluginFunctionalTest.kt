@@ -22,6 +22,8 @@ class FormattingPluginFunctionalTest {
 		settingsFile.writeText("")
 		buildFile.writeText(
 			"""
+			import dev.jaronline.gradle.formatting.baseJaronlineRules
+			
 			plugins {
 				id("dev.jaronline.formatting")
 			}
@@ -38,12 +40,10 @@ class FormattingPluginFunctionalTest {
 	fun `GIVEN correctly formatted kotlinGradle file WHEN checking with default rules THEN task is successful`() {
 		buildFile.appendText(
 			"""
-			jaronline {
-				formatting {
-					kotlinGradle {
-						target("test.gradle.kts")
-						baseRules()
-					}
+			spotless {
+				kotlinGradle {
+					target("test.gradle.kts")
+					baseJaronlineRules()
 				}
 			}
 			""".trimIndent(),
@@ -68,12 +68,10 @@ class FormattingPluginFunctionalTest {
 	fun `GIVEN incorrectly formatted kotlinGradle file WHEN checking with default rules THEN task is failure`() {
 		buildFile.appendText(
 			"""
-			jaronline {
-				formatting {
-					kotlinGradle {
-						target("test.gradle.kts")
-						baseRules()
-					}
+			spotless {
+				kotlinGradle {
+					target("test.gradle.kts")
+					baseJaronlineRules()
 				}
 			}
 			""".trimIndent(),
