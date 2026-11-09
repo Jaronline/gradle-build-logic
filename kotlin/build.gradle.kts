@@ -14,13 +14,10 @@ repositories {
 }
 
 dependencies {
-	implementation(project(":common"))
 	implementation(kotlin("gradle-plugin", libs.versions.kotlin.get()))
 	implementation(libs.plugin.dokka)
 	testImplementation(gradleApi())
-	testImplementation(gradleTestKit())
 	testImplementation(kotlin("test", libs.versions.kotlin.get()))
-	testImplementation(libs.junit.jupiter.params)
 }
 
 gradlePlugin {

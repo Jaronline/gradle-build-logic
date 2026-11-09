@@ -10,9 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 - Formatting plugin with spotless
 
-### Changed
+### Removed
 
-- Move javaVersion property from `jaronline` extension to `jaronline.kotlin` extension
+- Kotlin extension for kotlin plugin
 
 ## [0.1.0] - 2026-10-31
 
