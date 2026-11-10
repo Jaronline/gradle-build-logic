@@ -34,4 +34,5 @@ include(
 	"common",
 	"kotlin",
 	"formatting",
+	"publish",
 )
