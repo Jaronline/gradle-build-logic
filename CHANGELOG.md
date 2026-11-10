@@ -8,6 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.3.0] - 2026-11-10
+
+### Added
+
 - Publishing plugin with com.vanniktech.maven.publish plugin
 
 ## [0.2.0] - 2026-11-09
@@ -27,6 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 - Kotlin project plugin
 - Base plugin for shared properties and extensions
 
-[Unreleased]: https://github.com/Jaronline/gradle-build-logic/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/Jaronline/gradle-build-logic/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Jaronline/gradle-build-logic/commits/v0.1.0
