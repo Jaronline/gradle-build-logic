@@ -11,6 +11,7 @@ plugin-changelog = "2.5.0"
 plugin-spotless-changelog = "3.1.2"
 plugin-dokka = "2.2.0"
 plugin-spotless = "8.10.4"
+plugin-maven-publish = "0.37.0"
 
 [libraries]
 # Testing
@@ -28,3 +29,6 @@ plugin-spotless-changelog = { group = "com.diffplug.spotless-changelog", name = 
 plugin-dokka = { group = "org.jetbrains.dokka", name = "org.jetbrains.dokka.gradle.plugin", version.ref = "plugin-dokka" }
 # https://plugins.gradle.org/plugin/com.diffplug.spotless
 plugin-spotless = { group = "com.diffplug.spotless", name = "com.diffplug.spotless.gradle.plugin", version.ref = "plugin-spotless" }
+
+[plugins]
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "plugin-maven-publish" }
