@@ -21,6 +21,7 @@ jobs:
     outputs:
       version: ${{ steps.next_version.outputs.version }}
       tag: ${{ steps.next_version.outputs.tag }}
+      is_prerelease: ${{ steps.prerelease.outputs.is_prerelease }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
@@ -67,6 +68,15 @@ jobs:
             exit 1
           fi
           exit 0
+      - name: Parse SemVer
+        id: semver
+        uses: Jaronline/actions/semver@main
+        with:
+          version: ${{ steps.next_version.outputs.version }}
+      - name: Check Prerelease
+        id: prerelease
+        run: |
+          echo is_prerelease="${{ (steps.semver.outputs.major == '0' || steps.semver.outputs.prerelease != '') && 'true' || 'false' }}" >> "$GITHUB_OUTPUT"
       - name: Patch changelog
         run: |
           ./gradlew :patchChangelog
@@ -108,30 +118,21 @@ jobs:
       - name: Get release notes
         run: |
           ./gradlew :getChangelog --no-header --no-empty-sections --project-version=${{ needs.changelog-and-tag.outputs.version }} --output-file=release-notes.md
-      - name: Parse SemVer
-        id: semver
-        uses: Jaronline/actions/semver@main
-        with:
-          version: ${{ needs.changelog-and-tag.outputs.version }}
-      - name: Check Prerelease
-        id: prerelease
-        run: |
-          echo is_prerelease="${{ (steps.semver.outputs.major == '0' || steps.semver.outputs.prerelease != '') && 'true' || 'false' }}" >> "$GITHUB_OUTPUT"
       - name: Create prerelease
-        if: steps.prerelease.outputs.is_prerelease == 'true'
+        if: needs.changelog-and-tag.outputs.is_prerelease == 'true'
         run: |
           gh release create ${{ needs.changelog-and-tag.outputs.tag }} --latest --notes-file release-notes.md --verify-tag --prerelease
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create release
-        if: steps.prerelease.outputs.is_prerelease == 'false'
+        if: needs.changelog-and-tag.outputs.is_prerelease == 'false'
         run: |
           gh release create ${{ needs.changelog-and-tag.outputs.tag }} --latest --notes-file release-notes.md --verify-tag
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish:
-    name: Publish to Maven Central
+  publish-jaronline-maven:
+    name: Publish to Jaronline Maven
     runs-on: ubuntu-latest
     needs: changelog-and-tag
     steps:
@@ -148,7 +149,59 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6.4.1
       - name: Publish
-        run: ./gradlew publishToMavenCentral --no-configuration-cache -Pversion=${{ needs.changelog-and-tag.outputs.version }}
+        run: ./gradlew publishMavenPublicationToJaronlineRepository --no-configuration-cache -Pversion=${{ needs.changelog-and-tag.outputs.version }}
+        env:
+          ORG_GRADLE_PROJECT_jaronlineUsername: ${{ secrets.JARONLINE_MAVEN_USERNAME }}
+          ORG_GRADLE_PROJECT_jaronlinePassword: ${{ secrets.JARONLINE_MAVEN_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
+
+  publish-github-packages:
+    name: Publish to GitHub Packages
+    runs-on: ubuntu-latest
+    needs: changelog-and-tag
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: main
+          ssh-key: ${{ secrets.CI_SSH_AUTH_KEY }}
+      - name: Setup Java
+        uses: actions/setup-java@v6.1.0
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6.4.1
+      - name: Publish
+        run: ./gradlew publishMavenPublicationToGithubPackagesRepository --no-configuration-cache -Pversion=${{ needs.changelog-and-tag.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
+
+  publish-maven-central:
+    name: Publish to Maven Central
+    runs-on: ubuntu-latest
+    needs: changelog-and-tag
+    if: needs.changelog-and-tag.outputs.is_prerelease == 'false'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: main
+          ssh-key: ${{ secrets.CI_SSH_AUTH_KEY }}
+      - name: Setup Java
+        uses: actions/setup-java@v6.1.0
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6.4.1
+      - name: Publish
+        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache -Pversion=${{ needs.changelog-and-tag.outputs.version }}
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}

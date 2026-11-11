@@ -58,3 +58,4 @@ release-notes.txt
 # Keys and Secrets
 signing-key
 *.pub
+*.asc
