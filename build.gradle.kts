@@ -119,6 +119,25 @@ repositories {
 	mavenCentral()
 }
 
+publishing {
+	repositories {
+		maven {
+			name = "jaronline"
+			url = uri("https://maven.jaronline.dev/releases")
+			credentials(PasswordCredentials::class.java)
+		}
+
+		maven {
+			name = "githubPackages"
+			url = uri("https://maven.pkg.${buildProperties.githubUrl.get()}")
+			credentials {
+				username = buildProperties.githubActor
+				password = buildProperties.githubToken
+			}
+		}
+	}
+}
+
 mavenPublishing {
 	publishToMavenCentral()
 	signAllPublications()
@@ -150,6 +169,19 @@ mavenPublishing {
 			url = buildProperties.githubUrl.map { "https://$it/" }
 			connection = buildProperties.githubUrl.map { "scm:git:git://$it.git" }
 			developerConnection = buildProperties.githubUrl.map { "scm:git:ssh://git@$it.git" }
+		}
+	}
+}
+
+afterEvaluate {
+	publishing {
+		publications {
+			named<MavenPublication>("maven") {
+				setArtifacts(listOf<Any>())
+				artifact(tasks.jar)
+				artifact(sourcesJar)
+				artifact(javadocJar)
+			}
 		}
 	}
 }
