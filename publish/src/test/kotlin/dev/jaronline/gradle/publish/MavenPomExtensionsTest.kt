@@ -22,10 +22,22 @@ class MavenPomExtensionsTest {
 	}
 
 	@Test
-	fun `WHEN calling MavenPomLicense#mit() THEN sets correct properties`() {
+	fun `WHEN calling MavenPomLicenseSpec#mitLicense() THEN adds MIT license correctly`() {
 		pom.licenses {
-			license {
-				mit()
+			mitLicense()
+		}
+
+		assertEquals(1, pom.licenses.size)
+		val license = pom.licenses[0]
+		assertEquals("MIT License", license.name.orNull)
+		assertEquals("https://opensource.org/license/mit/", license.url.orNull)
+	}
+
+	@Test
+	fun `WHEN calling MavenPomLicenseSpec#mitLicense(action) THEN adds MIT license correctly`() {
+		pom.licenses {
+			mitLicense {
+				distribution.set("repo")
 			}
 		}
 
@@ -33,6 +45,7 @@ class MavenPomExtensionsTest {
 		val license = pom.licenses[0]
 		assertEquals("MIT License", license.name.orNull)
 		assertEquals("https://opensource.org/license/mit/", license.url.orNull)
+		assertEquals("repo", license.distribution.orNull)
 	}
 
 	@Test

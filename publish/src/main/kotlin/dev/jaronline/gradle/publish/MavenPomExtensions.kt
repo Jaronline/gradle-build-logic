@@ -1,11 +1,26 @@
 package dev.jaronline.gradle.publish
 
+import org.gradle.api.Action
 import org.gradle.api.provider.Provider
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPomDeveloperSpec
 import org.gradle.api.publish.maven.MavenPomLicense
+import org.gradle.api.publish.maven.MavenPomLicenseSpec
 
-fun MavenPomLicense.mit() {
+fun MavenPomLicenseSpec.mitLicense() {
+	license {
+		mit()
+	}
+}
+
+fun MavenPomLicenseSpec.mitLicense(action: Action<MavenPomLicense>) {
+	license {
+		mit()
+		action.execute(this)
+	}
+}
+
+private fun MavenPomLicense.mit() {
 	name.set("MIT License")
 	url.set("https://opensource.org/license/mit/")
 }

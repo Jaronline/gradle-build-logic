@@ -8,7 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ### Added
 
+- MavenPomLicenseSpec.mitLicense methods as replacement to MavenPomLicense.mit()
+
 ### Changed
+
+- Visibility modifier of MavenPomLicense.mit() is now private
 
 ### Deprecated
 
