@@ -35,4 +35,5 @@ include(
 	"kotlin",
 	"formatting",
 	"publish",
+	"project",
 )
