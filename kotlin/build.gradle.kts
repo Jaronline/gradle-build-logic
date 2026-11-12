@@ -20,15 +20,6 @@ dependencies {
 	testImplementation(kotlin("test", libs.versions.kotlin.get()))
 }
 
-gradlePlugin {
-	plugins {
-		register("kotlin") {
-			id = "dev.jaronline.project.kotlin"
-			implementationClass = "dev.jaronline.gradle.kotlin.KotlinPlugin"
-		}
-	}
-}
-
 sourceSets {
 	named("main") {
 		java.setSrcDirs(listOf<String>())

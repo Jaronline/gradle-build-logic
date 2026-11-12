@@ -47,13 +47,6 @@ val functionalTest = sourceSets.named("functionalTest") {
 }
 
 gradlePlugin {
-	plugins {
-		register("formatting") {
-			id = "dev.jaronline.formatting"
-			implementationClass = "dev.jaronline.gradle.formatting.FormattingPlugin"
-		}
-	}
-
 	testSourceSets(functionalTest.get())
 }
 
