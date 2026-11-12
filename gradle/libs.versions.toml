@@ -1,4 +1,6 @@
 [versions]
+build-logic = "0.4.1"
+
 # Common
 java = "25"
 kotlin = "2.4.21"
@@ -37,3 +39,7 @@ plugin-maven-publish = { group = "com.vanniktech", name = "gradle-maven-publish-
 
 [plugins]
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "plugin-maven-publish" }
+
+# Jaronline
+jaronline-formatting = { id = "dev.jaronline.formatting", version.ref = "build-logic" }
+jaronline-publish = { id = "dev.jaronline.publish", version.ref = "build-logic" }

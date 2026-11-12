@@ -1,13 +1,21 @@
 import dev.jaronline.gradle.UnpackArchives
+import dev.jaronline.gradle.formatting.baseJaronlineRules
+import dev.jaronline.gradle.project.githubPackages
+import dev.jaronline.gradle.project.jaronline
+import dev.jaronline.gradle.publish.gitScm
+import dev.jaronline.gradle.publish.jaronlineDeveloper
+import dev.jaronline.gradle.publish.mit
 
 plugins {
 	id("dev.jaronline.project")
+	alias(libs.plugins.jaronline.formatting)
 	id("dev.jaronline.kotlin.formatting")
 	id("dev.jaronline.report.jacoco.aggregation")
 	`kotlin-dsl` apply false
 	id("org.jetbrains.dokka")
 	id("dev.jaronline.jar")
 	alias(libs.plugins.maven.publish)
+	alias(libs.plugins.jaronline.publish)
 	`java-gradle-plugin`
 }
 
@@ -109,10 +117,7 @@ spotless {
 			"buildSrc/*/*.gradle.kts",
 			*subprojects.map { "${it.projectDir.path}/*.gradle.kts" }.toTypedArray(),
 		)
-
-		ktlint()
-		leadingSpacesToTabs()
-		endWithNewline()
+		baseJaronlineRules()
 	}
 }
 
@@ -122,15 +127,11 @@ repositories {
 
 publishing {
 	repositories {
-		maven {
-			name = "jaronline"
-			url = uri("https://maven.jaronline.dev/releases")
+		jaronline("releases") {
 			credentials(PasswordCredentials::class.java)
 		}
 
-		maven {
-			name = "githubPackages"
-			url = uri("https://maven.pkg.${buildProperties.githubUrl.get()}")
+		githubPackages("Jaronline", "gradle-build-logic") {
 			credentials {
 				username = buildProperties.githubActor
 				password = buildProperties.githubToken
@@ -141,8 +142,6 @@ publishing {
 
 mavenPublishing {
 	publishToMavenCentral()
-	signAllPublications()
-	coordinates(group.toString(), base.archivesName.get(), version.toString())
 
 	pom {
 		name = buildProperties.projectName
@@ -151,26 +150,14 @@ mavenPublishing {
 		url = buildProperties.githubUrl.map { "https://$it/" }
 		licenses {
 			license {
-				name = buildProperties.projectLicense
-				url = buildProperties.projectLicenseUrl
-				distribution = buildProperties.projectLicenseDistribution
+				mit()
+				distribution = "repo"
 			}
 		}
 		developers {
-			developer {
-				id = buildProperties.developerId
-				name = buildProperties.developerName
-				url = buildProperties.developerUrl
-				email = buildProperties.developerEmail
-				organization = buildProperties.developerOrganization
-				organizationUrl = buildProperties.developerOrganizationUrl
-			}
+			jaronlineDeveloper()
 		}
-		scm {
-			url = buildProperties.githubUrl.map { "https://$it/" }
-			connection = buildProperties.githubUrl.map { "scm:git:git://$it.git" }
-			developerConnection = buildProperties.githubUrl.map { "scm:git:ssh://git@$it.git" }
-		}
+		gitScm(buildProperties.githubUrl)
 	}
 }
 

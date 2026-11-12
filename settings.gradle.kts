@@ -7,6 +7,13 @@ pluginManagement {
 				includeModule("net.mezzdev.gradle", "JavaFormatting")
 			}
 		}
+		exclusiveContent {
+			forRepository { maven("https://maven.jaronline.dev/releases/") }
+			filter {
+				@Suppress("UnstableApiUsage")
+				includeGroupAndSubgroups("dev.jaronline")
+			}
+		}
 		gradlePluginPortal()
 	}
 }
