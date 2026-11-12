@@ -8,15 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ### Added
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- RepositoryHandler extension methods for Jaronline and GitHub Packages Maven repositories
 
 ## [0.3.0] - 2026-11-10
 
