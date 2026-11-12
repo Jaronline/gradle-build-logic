@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.4.1] - 2026-11-12
+
 ### Fixed
 
 - Gradle plugin markers now get generated
@@ -39,7 +53,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 - Kotlin project plugin
 - Base plugin for shared properties and extensions
 
-[Unreleased]: https://github.com/Jaronline/gradle-build-logic/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/Jaronline/gradle-build-logic/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/Jaronline/gradle-build-logic/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.1.0...v0.2.0
