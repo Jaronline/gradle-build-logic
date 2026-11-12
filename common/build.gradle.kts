@@ -9,15 +9,6 @@ repositories {
 	gradlePluginPortal()
 }
 
-gradlePlugin {
-	plugins {
-		register("base") {
-			id = "dev.jaronline.project.base"
-			implementationClass = "dev.jaronline.gradle.common.BasePlugin"
-		}
-	}
-}
-
 sourceSets {
 	named("main") {
 		java.setSrcDirs(listOf<String>())

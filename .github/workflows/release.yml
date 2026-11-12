@@ -149,7 +149,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6.4.1
       - name: Publish
-        run: ./gradlew publishMavenPublicationToJaronlineRepository --no-configuration-cache -Pversion=${{ needs.changelog-and-tag.outputs.version }}
+        run: ./gradlew publishAllPublicationsToJaronlineRepository --no-configuration-cache -Pversion=${{ needs.changelog-and-tag.outputs.version }}
         env:
           ORG_GRADLE_PROJECT_jaronlineUsername: ${{ secrets.JARONLINE_MAVEN_USERNAME }}
           ORG_GRADLE_PROJECT_jaronlinePassword: ${{ secrets.JARONLINE_MAVEN_PASSWORD }}
@@ -175,7 +175,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6.4.1
       - name: Publish
-        run: ./gradlew publishMavenPublicationToGithubPackagesRepository --no-configuration-cache -Pversion=${{ needs.changelog-and-tag.outputs.version }}
+        run: ./gradlew publishAllPublicationsToGithubPackagesRepository --no-configuration-cache -Pversion=${{ needs.changelog-and-tag.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}

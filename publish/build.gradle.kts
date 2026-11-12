@@ -20,15 +20,6 @@ dependencies {
 	testImplementation(kotlin("test", libs.versions.kotlin.get()))
 }
 
-gradlePlugin {
-	plugins {
-		register("publish") {
-			id = "dev.jaronline.publish"
-			implementationClass = "${group}.PublishPlugin"
-		}
-	}
-}
-
 sourceSets {
 	named("main") {
 		java.setSrcDirs(listOf<String>())

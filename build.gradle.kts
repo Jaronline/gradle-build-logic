@@ -8,6 +8,7 @@ plugins {
 	id("org.jetbrains.dokka")
 	id("dev.jaronline.jar")
 	alias(libs.plugins.maven.publish)
+	`java-gradle-plugin`
 }
 
 val dependencyClasses =
@@ -176,11 +177,51 @@ mavenPublishing {
 afterEvaluate {
 	publishing {
 		publications {
-			named<MavenPublication>("maven") {
+			named<MavenPublication>("pluginMaven") {
 				setArtifacts(listOf<Any>())
 				artifact(tasks.jar)
 				artifact(sourcesJar)
 				artifact(javadocJar)
+			}
+		}
+	}
+}
+
+allprojects {
+	plugins.withId("java-gradle-plugin") {
+		gradlePlugin {
+			if (path != ":") {
+				isAutomatedPublishing = false
+			}
+
+			plugins {
+				if (listOf(":", ":common").contains(path)) {
+					register("base") {
+						id = "dev.jaronline.project.base"
+						implementationClass = "dev.jaronline.gradle.common.BasePlugin"
+					}
+				}
+
+				if (listOf(":", ":formatting").contains(path)) {
+					register("formatting") {
+						id = "dev.jaronline.formatting"
+						implementationClass = "dev.jaronline.gradle.formatting.FormattingPlugin"
+					}
+				}
+
+				if (listOf(":", ":kotlin").contains(path)) {
+					register("kotlin") {
+						id = "dev.jaronline.project.kotlin"
+						implementationClass = "dev.jaronline.gradle.kotlin.KotlinPlugin"
+					}
+				}
+
+				if (listOf(":", ":publish").contains(path)) {
+					register("publish") {
+						id = "dev.jaronline.publish"
+						implementationClass = "dev.jaronline.gradle.publish.PublishPlugin"
+					}
+				}
 			}
 		}
 	}
