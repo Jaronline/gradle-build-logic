@@ -169,6 +169,26 @@ afterEvaluate {
 				artifact(tasks.jar)
 				artifact(sourcesJar)
 				artifact(javadocJar)
+
+				val dependencyInfos =
+					listOf(
+						libs.plugin.maven.publish
+							.get(),
+					).map {
+						mapOf(
+							"groupId" to it.group,
+							"artifactId" to it.name,
+							"version" to it.version,
+						)
+					}
+
+				pom.withXml {
+					val dependenciesNode = asNode().appendNode("dependencies")
+					dependencyInfos.forEach {
+						val dependencyNode = dependenciesNode.appendNode("dependency")
+						it.forEach { (key, value) -> dependencyNode.appendNode(key, value) }
+					}
+				}
 			}
 		}
 	}
