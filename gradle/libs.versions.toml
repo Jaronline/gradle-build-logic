@@ -12,8 +12,8 @@ mockito = "5.24.0"
 # Plugins
 plugin-changelog = "2.5.0"
 plugin-spotless-changelog = "3.1.2"
-plugin-dokka = "2.2.0"
-plugin-spotless = "8.10.4"
+plugin-dokka = "2.3.0"
+plugin-spotless = "8.11.0"
 plugin-maven-publish = "0.37.0"
 
 [libraries]

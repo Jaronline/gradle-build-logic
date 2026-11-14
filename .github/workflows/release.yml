@@ -30,7 +30,7 @@ jobs:
           fetch-tags: true
           ssh-key: ${{ secrets.CI_SSH_AUTH_KEY }}
       - name: Setup Java
-        uses: actions/setup-java@v6.1.0
+        uses: actions/setup-java@v6.3.0
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
@@ -109,7 +109,7 @@ jobs:
           ref: main
           ssh-key: ${{ secrets.CI_SSH_AUTH_KEY }}
       - name: Setup Java
-        uses: actions/setup-java@v6.1.0
+        uses: actions/setup-java@v6.3.0
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
@@ -142,7 +142,7 @@ jobs:
           ref: main
           ssh-key: ${{ secrets.CI_SSH_AUTH_KEY }}
       - name: Setup Java
-        uses: actions/setup-java@v6.1.0
+        uses: actions/setup-java@v6.3.0
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
@@ -171,7 +171,7 @@ jobs:
           ref: main
           ssh-key: ${{ secrets.CI_SSH_AUTH_KEY }}
       - name: Setup Java
-        uses: actions/setup-java@v6.1.0
+        uses: actions/setup-java@v6.3.0
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
@@ -197,7 +197,7 @@ jobs:
           ref: main
           ssh-key: ${{ secrets.CI_SSH_AUTH_KEY }}
       - name: Setup Java
-        uses: actions/setup-java@v6.1.0
+        uses: actions/setup-java@v6.3.0
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
