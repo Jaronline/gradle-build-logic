@@ -66,6 +66,10 @@ dependencies {
 		}
 		dokka(project(it.path))
 	}
+	api(libs.plugin.spotless)
+	api(kotlin("gradle-plugin", libs.versions.kotlin.get()))
+	api(libs.plugin.dokka)
+	api(libs.plugin.maven.publish)
 }
 
 java {
@@ -169,26 +173,6 @@ afterEvaluate {
 				artifact(tasks.jar)
 				artifact(sourcesJar)
 				artifact(javadocJar)
-
-				val dependencyInfos =
-					listOf(
-						libs.plugin.maven.publish
-							.get(),
-					).map {
-						mapOf(
-							"groupId" to it.group,
-							"artifactId" to it.name,
-							"version" to it.version,
-						)
-					}
-
-				pom.withXml {
-					val dependenciesNode = asNode().appendNode("dependencies")
-					dependencyInfos.forEach {
-						val dependencyNode = dependenciesNode.appendNode("dependency")
-						it.forEach { (key, value) -> dependencyNode.appendNode(key, value) }
-					}
-				}
 			}
 		}
 	}
