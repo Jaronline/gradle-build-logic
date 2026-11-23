@@ -11,11 +11,51 @@ plugins {
 	alias(libs.plugins.jaronline.formatting)
 	id("dev.jaronline.kotlin.formatting")
 	id("dev.jaronline.report.jacoco.aggregation")
-	`kotlin-dsl` apply false
+	`kotlin-dsl`
 	id("org.jetbrains.dokka")
 	id("dev.jaronline.jar")
 	alias(libs.plugins.jaronline.publish)
 	`java-gradle-plugin`
+}
+
+testing {
+	@Suppress("UnstableApiUsage")
+	suites {
+		val smokeTest = register<JvmTestSuite>("smokeTest")
+
+		named<JvmTestSuite>("test") {
+			targets {
+				all {
+					testTask.configure {
+						shouldRunAfter(smokeTest)
+					}
+				}
+			}
+		}
+	}
+}
+
+sourceSets {
+	main {
+		java.setSrcDirs(listOf<String>())
+		kotlin.setSrcDirs(listOf<String>())
+	}
+	test {
+		java.setSrcDirs(listOf<String>())
+		kotlin.setSrcDirs(listOf<String>())
+		resources.setSrcDirs(listOf<String>())
+	}
+}
+
+val smokeTest =
+	sourceSets.named("smokeTest") {
+		java.setSrcDirs(listOf<String>())
+		resources.setSrcDirs(listOf<String>())
+	}
+
+tasks.named<Test>("smokeTest") {
+	systemProperty("publishedPluginVersion", project.version.toString())
+	dependsOn(tasks.publishToMavenLocal)
 }
 
 val dependencyClasses =
@@ -69,6 +109,15 @@ dependencies {
 	api(kotlin("gradle-plugin", libs.versions.kotlin.get()))
 	api(libs.plugin.dokka)
 	api(libs.plugin.maven.publish)
+
+	"smokeTestImplementation"(libs.junit.jupiter.api)
+	"smokeTestImplementation"(kotlin("test", libs.versions.kotlin.get()))
+	"smokeTestRuntimeOnly"(libs.junit.jupiter.engine)
+	"smokeTestRuntimeOnly"(libs.junit.platform.launcher)
+}
+
+gradlePlugin {
+	testSourceSets(smokeTest.get())
 }
 
 java {
