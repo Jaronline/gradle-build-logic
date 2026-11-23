@@ -1,4 +1,3 @@
-import dev.jaronline.gradle.UnpackArchives
 import dev.jaronline.gradle.formatting.baseJaronlineRules
 import dev.jaronline.gradle.project.githubPackages
 import dev.jaronline.gradle.project.jaronline
@@ -8,6 +7,7 @@ import dev.jaronline.gradle.publish.mitLicense
 
 plugins {
 	id("dev.jaronline.project")
+	alias(libs.plugins.jaronline.subproject.dependencies)
 	alias(libs.plugins.jaronline.formatting)
 	id("dev.jaronline.kotlin.formatting")
 	id("dev.jaronline.report.jacoco.aggregation")
@@ -58,39 +58,6 @@ tasks.named<Test>("smokeTest") {
 	dependsOn(tasks.publishToMavenLocal)
 }
 
-val dependencyClasses =
-	configurations.create("dependencyClasses") {
-		isCanBeConsumed = false
-		isCanBeResolved = true
-		attributes {
-			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.LIBRARY))
-			attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
-			attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements.CLASSES))
-		}
-	}
-
-val dependencyResources =
-	configurations.create("dependencyResources") {
-		isCanBeConsumed = false
-		isCanBeResolved = true
-		attributes {
-			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.LIBRARY))
-			attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
-			attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements.RESOURCES))
-		}
-	}
-
-val dependencySources =
-	configurations.create("dependencySources") {
-		isCanBeConsumed = false
-		isCanBeResolved = true
-		attributes {
-			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.DOCUMENTATION))
-			attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
-			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType.SOURCES))
-		}
-	}
-
 dependencies {
 	jacocoAggregation(project(":kotlin"))
 	subprojects.forEach {
@@ -126,27 +93,15 @@ java {
 }
 
 tasks.jar {
-	from(dependencyClasses)
-	from(dependencyResources)
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.processResources {
-	from(dependencyResources)
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-@Suppress("TaskMissingDescription")
-val unpackDependencySources =
-	tasks.register<UnpackArchives>("unpackDependencySources") {
-		archives.from(dependencySources)
-		excludedPatterns.add("META-INF/MANIFEST.MF")
-		outputDirectory.set(layout.buildDirectory.dir("generated/dependencySources"))
-	}
-
 val sourcesJar =
 	tasks.named<Jar>("sourcesJar") {
-		from(unpackDependencySources)
 		exclude("**/Readme.md")
 		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 		archiveClassifier.set("sources")
