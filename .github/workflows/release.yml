@@ -77,12 +77,12 @@ jobs:
         id: prerelease
         run: |
           echo is_prerelease="${{ (steps.semver.outputs.major == '0' || steps.semver.outputs.prerelease != '') && 'true' || 'false' }}" >> "$GITHUB_OUTPUT"
-      - name: Patch changelog
-        run: |
-          ./gradlew :patchChangelog
       - name: Generate README
         run: |
           ./gradlew :generateReadme
+      - name: Patch changelog
+        run: |
+          ./gradlew :patchChangelog
       - name: Check changes in CHANGELOG.md
         run: |
           if git diff --exit-code CHANGELOG.md >/dev/null 2>&1; then
