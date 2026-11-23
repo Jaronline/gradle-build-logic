@@ -8,15 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ### Added
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Subproject dependencies plugin
 
 ## [0.5.0] - 2026-11-23
 
