@@ -4,7 +4,7 @@ import dev.jaronline.gradle.project.githubPackages
 import dev.jaronline.gradle.project.jaronline
 import dev.jaronline.gradle.publish.gitScm
 import dev.jaronline.gradle.publish.jaronlineDeveloper
-import dev.jaronline.gradle.publish.mit
+import dev.jaronline.gradle.publish.mitLicense
 
 plugins {
 	id("dev.jaronline.project")
@@ -14,7 +14,6 @@ plugins {
 	`kotlin-dsl` apply false
 	id("org.jetbrains.dokka")
 	id("dev.jaronline.jar")
-	alias(libs.plugins.maven.publish)
 	alias(libs.plugins.jaronline.publish)
 	`java-gradle-plugin`
 }
@@ -153,8 +152,7 @@ mavenPublishing {
 		inceptionYear = buildProperties.projectInceptionYear
 		url = buildProperties.githubUrl.map { "https://$it/" }
 		licenses {
-			license {
-				mit()
+			mitLicense {
 				distribution = "repo"
 			}
 		}
