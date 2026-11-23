@@ -270,6 +270,13 @@ allprojects {
 					}
 				}
 
+				if (listOf(":", ":project").contains(path)) {
+					register("subprojectDependencies") {
+						id = "dev.jaronline.project.subproject.dependencies"
+						implementationClass = "dev.jaronline.gradle.project.SubprojectDependenciesPlugin"
+					}
+				}
+
 				if (listOf(":", ":publish").contains(path)) {
 					register("publish") {
 						id = "dev.jaronline.publish"
