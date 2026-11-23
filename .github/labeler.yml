@@ -3,6 +3,8 @@ root:
       - any-glob-to-any-file:
           - build.gradle.kts
           - settings.gradle.kts
+          - src/*
+          - src/**/*
 buildSrc:
   - changed-files:
       - any-glob-to-any-file:
@@ -24,3 +26,18 @@ versions:
       - any-glob-to-any-file:
           - formatting/*
           - formatting/**/*
+"module: kotlin":
+  - changed-files:
+      - any-glob-to-any-file:
+          - kotlin/*
+          - kotlin/**/*
+"module: project":
+  - changed-files:
+      - any-glob-to-any-file:
+          - project/*
+          - project/**/*
+"module: publish":
+  - changed-files:
+      - any-glob-to-any-file:
+          - publish/*
+          - publish/**/*
