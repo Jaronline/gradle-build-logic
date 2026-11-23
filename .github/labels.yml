@@ -7,3 +7,9 @@ labels:
   # Modules
   - name: "module: formatting"
     color: "C81CDE"
+  - name: "module: kotlin"
+    color: "C81CDE"
+  - name: "module: project"
+    color: "C81CDE"
+  - name: "module: publish"
+    color: "C81CDE"
