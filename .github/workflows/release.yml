@@ -80,6 +80,9 @@ jobs:
       - name: Patch changelog
         run: |
           ./gradlew :patchChangelog
+      - name: Generate README
+        run: |
+          ./gradlew :generateReadme
       - name: Check changes in CHANGELOG.md
         run: |
           if git diff --exit-code CHANGELOG.md >/dev/null 2>&1; then
@@ -87,9 +90,9 @@ jobs:
             exit 1
           fi
           exit 0
-      - name: Commit changelog
+      - name: Commit release files
         run: |
-          git add CHANGELOG.md
+          git add CHANGELOG.md README.md
           git commit -m "chore: release ${{ steps.next_version.outputs.tag }}"
           git pull --rebase origin main
           git push origin main
