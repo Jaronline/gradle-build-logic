@@ -178,6 +178,22 @@ afterEvaluate {
 	}
 }
 
+tasks.register<ProcessResources>("generateReadme") {
+	description = "Generate the README.md file"
+
+	from(layout.projectDirectory.dir("src/main/resources"))
+	into(layout.projectDirectory)
+
+	val properties =
+		mapOf(
+			"version" to version.toString(),
+		)
+	inputs.properties(properties)
+	filesMatching("README.md") {
+		expand(properties)
+	}
+}
+
 allprojects {
 	plugins.withId("java-gradle-plugin") {
 		gradlePlugin {
