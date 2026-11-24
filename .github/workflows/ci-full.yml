@@ -66,6 +66,8 @@ jobs:
         run: ./gradlew smokeTest
       - name: Test
         run: ./gradlew test
+      - name: Integration Test
+        run: ./gradlew integrationTest
       - name: Functional Test
         run: ./gradlew functionalTest
 
