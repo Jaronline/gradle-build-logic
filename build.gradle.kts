@@ -1,3 +1,4 @@
+import dev.jaronline.gradle.ReadmeCheck
 import dev.jaronline.gradle.formatting.baseJaronlineRules
 import dev.jaronline.gradle.project.githubPackages
 import dev.jaronline.gradle.project.jaronline
@@ -180,20 +181,43 @@ afterEvaluate {
 	}
 }
 
-tasks.register<ProcessResources>("generateReadme") {
-	description = "Generate the README.md file"
+val generateReadme =
+	tasks.register<ProcessResources>("generateReadme") {
+		description = "Generate the README.md file"
 
-	from(layout.projectDirectory.dir("src/main/resources"))
-	into(layout.projectDirectory)
+		from(layout.projectDirectory.dir("src/main/resources"))
+		into(layout.buildDirectory.dir("generated/readme"))
 
-	val properties =
-		mapOf(
-			"version" to version.toString(),
-		)
-	inputs.properties(properties)
-	filesMatching("README.md") {
-		expand(properties)
+		val properties =
+			mapOf(
+				"version" to spotlessChangelog.versionLast,
+			)
+		inputs.properties(properties)
+		filesMatching("README.md") {
+			expand(properties)
+		}
 	}
+
+tasks.register<Copy>("updateReadme") {
+	description = "Updates the root README.md file"
+
+	dependsOn(generateReadme)
+
+	from(layout.buildDirectory.file("generated/readme/README.md"))
+	into(layout.projectDirectory)
+}
+
+@Suppress("TaskMissingDescription")
+val readmeCheck =
+	tasks.register<ReadmeCheck>("readmeCheck") {
+		dependsOn(generateReadme)
+
+		rootReadme = layout.projectDirectory.file("README.md")
+		generatedReadme = layout.buildDirectory.file("generated/readme/README.md")
+	}
+
+tasks.check {
+	dependsOn(readmeCheck)
 }
 
 allprojects {

@@ -45,4 +45,5 @@ plugins {
 
 - `dev.jaronline.formatting`
 - `dev.jaronline.project.kotlin`
+- `dev.jaronline.project.subproject.dependencies`
 - `dev.jaronline.publish`
