@@ -15,10 +15,6 @@ dependencies {
 
 gradlePlugin {
 	plugins {
-		register("kotlin") {
-			id = "dev.jaronline.kotlin"
-			implementationClass = "dev.jaronline.gradle.kotlin.KotlinPlugin"
-		}
 		register("kotlinFormatting") {
 			id = "dev.jaronline.kotlin.formatting"
 			implementationClass = "dev.jaronline.gradle.kotlin.KotlinFormattingPlugin"

@@ -1,4 +1,3 @@
-import dev.jaronline.gradle.ReadmeCheck
 import dev.jaronline.gradle.formatting.baseJaronlineRules
 import dev.jaronline.gradle.project.githubPackages
 import dev.jaronline.gradle.project.jaronline
@@ -9,6 +8,7 @@ import dev.jaronline.gradle.publish.mitLicense
 plugins {
 	id("dev.jaronline.project")
 	alias(libs.plugins.jaronline.subproject.dependencies)
+	alias(libs.plugins.jaronline.readme.template)
 	alias(libs.plugins.jaronline.formatting)
 	id("dev.jaronline.kotlin.formatting")
 	id("dev.jaronline.report.jacoco.aggregation")
@@ -181,46 +181,6 @@ afterEvaluate {
 	}
 }
 
-val generateReadme =
-	tasks.register<ProcessResources>("generateReadme") {
-		description = "Generate the README.md file"
-
-		from(layout.projectDirectory.dir("src/main/resources"))
-		into(layout.buildDirectory.dir("generated/readme"))
-
-		val properties =
-			mapOf(
-				"version" to spotlessChangelog.versionLast,
-				"pluginsList" to gradlePlugin.plugins.sortedBy { it.id }.joinToString("\n") { "- `${it.id}`" },
-			)
-		inputs.properties(properties)
-		filesMatching("README.md") {
-			expand(properties)
-		}
-	}
-
-tasks.register<Copy>("updateReadme") {
-	description = "Updates the root README.md file"
-
-	dependsOn(generateReadme)
-
-	from(layout.buildDirectory.file("generated/readme/README.md"))
-	into(layout.projectDirectory)
-}
-
-@Suppress("TaskMissingDescription")
-val readmeCheck =
-	tasks.register<ReadmeCheck>("readmeCheck") {
-		dependsOn(generateReadme)
-
-		rootReadme = layout.projectDirectory.file("README.md")
-		generatedReadme = layout.buildDirectory.file("generated/readme/README.md")
-	}
-
-tasks.check {
-	dependsOn(readmeCheck)
-}
-
 allprojects {
 	plugins.withId("java-gradle-plugin") {
 		gradlePlugin {
@@ -263,4 +223,12 @@ allprojects {
 			}
 		}
 	}
+}
+
+readmeTemplate {
+	properties =
+		mapOf(
+			"version" to spotlessChangelog.versionLast,
+			"pluginsList" to gradlePlugin.plugins.sortedBy { it.id }.joinToString("\n") { "- `${it.id}`" },
+		)
 }
