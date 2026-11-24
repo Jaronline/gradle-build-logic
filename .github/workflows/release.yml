@@ -77,9 +77,6 @@ jobs:
         id: prerelease
         run: |
           echo is_prerelease="${{ (steps.semver.outputs.major == '0' || steps.semver.outputs.prerelease != '') && 'true' || 'false' }}" >> "$GITHUB_OUTPUT"
-      - name: Generate README
-        run: |
-          ./gradlew :generateReadme
       - name: Patch changelog
         run: |
           ./gradlew :patchChangelog
@@ -90,6 +87,9 @@ jobs:
             exit 1
           fi
           exit 0
+      - name: Generate README
+        run: |
+          ./gradlew :generateReadme
       - name: Commit release files
         run: |
           git add CHANGELOG.md README.md
