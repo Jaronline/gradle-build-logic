@@ -229,13 +229,6 @@ allprojects {
 			}
 
 			plugins {
-				if (listOf(":", ":common").contains(path)) {
-					register("base") {
-						id = "dev.jaronline.project.base"
-						implementationClass = "dev.jaronline.gradle.common.BasePlugin"
-					}
-				}
-
 				if (listOf(":", ":formatting").contains(path)) {
 					register("formatting") {
 						id = "dev.jaronline.formatting"

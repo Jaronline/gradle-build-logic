@@ -26,7 +26,6 @@ testing {
 }
 
 dependencies {
-	implementation(project(":common"))
 	implementation(libs.plugin.spotless)
 	testImplementation(kotlin("test", libs.versions.kotlin.get()))
 }
