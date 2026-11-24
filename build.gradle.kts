@@ -191,6 +191,7 @@ val generateReadme =
 		val properties =
 			mapOf(
 				"version" to spotlessChangelog.versionLast,
+				"pluginsList" to gradlePlugin.plugins.sortedBy { it.id }.joinToString("\n") { "- `${it.id}`" },
 			)
 		inputs.properties(properties)
 		filesMatching("README.md") {
