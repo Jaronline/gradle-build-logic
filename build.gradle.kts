@@ -248,6 +248,10 @@ allprojects {
 						id = "dev.jaronline.project.subproject.dependencies"
 						implementationClass = "dev.jaronline.gradle.project.SubprojectDependenciesPlugin"
 					}
+					register("readmeTemplate") {
+						id = "dev.jaronline.project.readme-template"
+						implementationClass = "dev.jaronline.gradle.project.readme.ReadmeTemplatePlugin"
+					}
 				}
 
 				if (listOf(":", ":publish").contains(path)) {
