@@ -245,7 +245,7 @@ allprojects {
 
 				if (listOf(":", ":project").contains(path)) {
 					register("subprojectDependencies") {
-						id = "dev.jaronline.project.subproject.dependencies"
+						id = "dev.jaronline.project.subproject-dependencies"
 						implementationClass = "dev.jaronline.gradle.project.SubprojectDependenciesPlugin"
 					}
 					register("readmeTemplate") {
