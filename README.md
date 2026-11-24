@@ -44,6 +44,7 @@ plugins {
 ## Plugins
 
 - `dev.jaronline.formatting`
+- `dev.jaronline.project.base`
 - `dev.jaronline.project.kotlin`
 - `dev.jaronline.project.subproject.dependencies`
 - `dev.jaronline.publish`
