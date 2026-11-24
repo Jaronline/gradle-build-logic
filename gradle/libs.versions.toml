@@ -1,5 +1,5 @@
 [versions]
-build-logic = "0.6.0"
+build-logic = "0.7.0"
 
 # Common
 java = "25"
@@ -41,4 +41,5 @@ plugin-maven-publish = { group = "com.vanniktech", name = "gradle-maven-publish-
 # Jaronline
 jaronline-formatting = { id = "dev.jaronline.formatting", version.ref = "build-logic" }
 jaronline-publish = { id = "dev.jaronline.publish", version.ref = "build-logic" }
-jaronline-subproject-dependencies = { id = "dev.jaronline.project.subproject.dependencies", version.ref = "build-logic" }
+jaronline-subproject-dependencies = { id = "dev.jaronline.project.subproject-dependencies", version.ref = "build-logic" }
+jaronline-readme-template = { id = "dev.jaronline.project.readme-template", version.ref = "build-logic" }
