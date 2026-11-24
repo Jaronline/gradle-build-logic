@@ -22,4 +22,15 @@ if ! ./gradlew readmeCheck --quiet; then
 fi
 
 echo -e "\e[32mREADME Check found no violations.\e[0m"
+
+echo "Running CHANGELOG Check..."
+
+if ! ./gradlew changelogCheck --quiet; then
+  echo
+  echo -e "\e[31mCHANGELOG Check found violations.\e[0m"
+  echo "Fix the CHANGELOG.md file before trying to commit again."
+  exit 1
+fi
+
+echo -e "\e[32mCHANGELOG Check found no violations.\e[0m"
 exit 0
