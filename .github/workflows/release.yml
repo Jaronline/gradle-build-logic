@@ -87,9 +87,9 @@ jobs:
             exit 1
           fi
           exit 0
-      - name: Generate README
+      - name: Update README
         run: |
-          ./gradlew :generateReadme
+          ./gradlew :updateReadme
       - name: Commit release files
         run: |
           git add CHANGELOG.md README.md
