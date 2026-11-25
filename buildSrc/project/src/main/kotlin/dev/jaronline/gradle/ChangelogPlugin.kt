@@ -1,5 +1,6 @@
 package dev.jaronline.gradle
 
+import com.diffplug.spotless.changelog.gradle.ChangelogExtension
 import com.diffplug.spotless.changelog.gradle.ChangelogPlugin as SpotlessChangelogPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -30,5 +31,10 @@ private fun Project.configureChangelog() {
 		""".trimIndent())
 		repositoryUrl.set("https://${buildProperties.githubUrl.get()}")
 		outputFile.set(file("release-notes.txt"))
+	}
+
+	extensions.configure<ChangelogExtension> {
+		ifFoundBumpBreaking("- **Breaking:**")
+		ifFoundBumpAdded("### Added\n\n-", "### Changed\n\n-", "### Deprecated\n\n-", "### Removed\n\n-", "<!-- semver:minor -->")
 	}
 }
