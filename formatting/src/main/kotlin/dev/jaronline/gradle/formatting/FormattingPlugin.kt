@@ -1,6 +1,6 @@
 package dev.jaronline.gradle.formatting
 
-import com.diffplug.gradle.spotless.KotlinGradleExtension
+import com.diffplug.gradle.spotless.BaseKotlinExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -11,7 +11,7 @@ class FormattingPlugin : Plugin<Project> {
 	}
 }
 
-fun KotlinGradleExtension.baseJaronlineRules() {
+fun BaseKotlinExtension.baseJaronlineRules() {
 	ktlint()
 	leadingSpacesToTabs()
 	endWithNewline()
