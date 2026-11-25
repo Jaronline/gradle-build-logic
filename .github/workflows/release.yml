@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  JAVA_DISTRIBUTION: ${{ vars.JAVA_DISTRIBUTION || 'microsoft' }}
+  JAVA_DISTRIBUTION: ${{ vars.JAVA_DISTRIBUTION || 'temurin' }}
   JAVA_VERSION: ${{ vars.JAVA_VERSION || 25 }}
 
 jobs:
