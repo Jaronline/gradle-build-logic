@@ -1,6 +1,7 @@
 package dev.jaronline.gradle.formatting
 
 import com.diffplug.gradle.spotless.SpotlessExtension
+import net.mezzdev.gradle.spotless.JavaFormattingExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.testfixtures.ProjectBuilder
@@ -22,7 +23,7 @@ class FormattingPluginTest {
 
 	@Test
 	fun `WHEN apply formatting plugin THEN correct plugins are applied`() {
-		val spotless = project.extensions.findByType<SpotlessExtension>()
-		assertNotNull(spotless)
+		assertNotNull(project.extensions.findByType<SpotlessExtension>())
+		assertNotNull(project.extensions.findByType<JavaFormattingExtension>())
 	}
 }

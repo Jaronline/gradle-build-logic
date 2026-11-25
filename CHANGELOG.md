@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 ### Added
 
 - Kotlin formatting rules for the `dev.jaronline.formatting` plugin
+- Java formatting with the `net.mezzdev.java-formatting` plugin 
 
 ### Changed
 

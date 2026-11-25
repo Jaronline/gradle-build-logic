@@ -8,6 +8,14 @@ plugins {
 
 repositories {
 	gradlePluginPortal()
+	exclusiveContent {
+		forRepository { maven("https://maven.blamejared.com/") }
+		filter {
+			includeGroup("net.mezzdev.java-formatting")
+			includeModule("net.mezzdev.gradle", "JavaFormatting")
+		}
+	}
+	mavenCentral()
 }
 
 testing {
@@ -27,6 +35,7 @@ testing {
 
 dependencies {
 	implementation(libs.plugin.spotless)
+	implementation(libs.plugin.java.formatting)
 	testImplementation(kotlin("test", libs.versions.kotlin.get()))
 }
 
