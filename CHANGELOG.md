@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ### Fixed
 
+- Include `net.mezzdev.java-formatting` in pom dependencies
+
 ### Security
 
 ## [0.8.0] - 2026-11-25

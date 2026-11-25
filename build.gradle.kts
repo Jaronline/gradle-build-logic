@@ -74,6 +74,7 @@ dependencies {
 		dokka(project(it.path))
 	}
 	api(libs.plugin.spotless)
+	api(libs.plugin.java.formatting)
 	api(kotlin("gradle-plugin", libs.versions.kotlin.get()))
 	api(libs.plugin.dokka)
 	api(libs.plugin.maven.publish)
@@ -135,6 +136,13 @@ spotless {
 }
 
 repositories {
+	exclusiveContent {
+		forRepository { maven("https://maven.blamejared.com/") }
+		filter {
+			includeGroup("net.mezzdev.java-formatting")
+			includeModule("net.mezzdev.gradle", "JavaFormatting")
+		}
+	}
 	mavenCentral()
 }
 

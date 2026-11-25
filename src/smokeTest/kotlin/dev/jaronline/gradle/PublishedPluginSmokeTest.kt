@@ -21,6 +21,13 @@ class PublishedPluginSmokeTest {
 			pluginManagement {
 				repositories {
 					mavenLocal()
+					exclusiveContent {
+						forRepository { maven("https://maven.blamejared.com/") }
+						filter {
+							includeGroup("net.mezzdev.java-formatting")
+							includeModule("net.mezzdev.gradle", "JavaFormatting")
+						}
+					}
 					gradlePluginPortal()
 	                mavenCentral()
 				}
@@ -30,6 +37,13 @@ class PublishedPluginSmokeTest {
                 repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
                 repositories {
                     mavenLocal()
+					exclusiveContent {
+						forRepository { maven("https://maven.blamejared.com/") }
+						filter {
+							includeGroup("net.mezzdev.java-formatting")
+							includeModule("net.mezzdev.gradle", "JavaFormatting")
+						}
+					}
                     mavenCentral()
                     gradlePluginPortal()
                 }
@@ -40,7 +54,7 @@ class PublishedPluginSmokeTest {
 		)
 
 		projectDir.resolve("build.gradle.kts").writeText(
-            """
+			"""
             plugins {
                 id("dev.jaronline.publish") version "$pluginVersion"
             }
@@ -51,12 +65,12 @@ class PublishedPluginSmokeTest {
                 }
             }
             """.trimIndent()
-        )
+		)
 
 		val result = GradleRunner.create()
-            .withProjectDir(projectDir)
-            .withArguments("smokeCheck", "--stacktrace", "--refresh-dependencies")
-            .build()
+			.withProjectDir(projectDir)
+			.withArguments("smokeCheck", "--stacktrace", "--refresh-dependencies")
+			.build()
 
 		assertEquals(TaskOutcome.SUCCESS, result.task(":smokeCheck")?.outcome)
 	}
