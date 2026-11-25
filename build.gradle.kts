@@ -201,37 +201,40 @@ allprojects {
 			}
 
 			plugins {
-				if (listOf(":", ":formatting").contains(path)) {
-					register("formatting") {
-						id = "dev.jaronline.formatting"
-						implementationClass = "dev.jaronline.gradle.formatting.FormattingPlugin"
-					}
-				}
-
-				if (listOf(":", ":kotlin").contains(path)) {
-					register("kotlin") {
-						id = "dev.jaronline.project.kotlin"
-						implementationClass = "dev.jaronline.gradle.kotlin.KotlinPlugin"
-					}
-				}
-
-				if (listOf(":", ":project").contains(path)) {
-					register("subprojectDependencies") {
-						id = "dev.jaronline.project.subproject-dependencies"
-						implementationClass = "dev.jaronline.gradle.project.SubprojectDependenciesPlugin"
-					}
-					register("readmeTemplate") {
-						id = "dev.jaronline.project.readme-template"
-						implementationClass = "dev.jaronline.gradle.project.readme.ReadmeTemplatePlugin"
-					}
-				}
-
-				if (listOf(":", ":publish").contains(path)) {
-					register("publish") {
-						id = "dev.jaronline.publish"
-						implementationClass = "dev.jaronline.gradle.publish.PublishPlugin"
-					}
-				}
+				mapOf<String, Runnable>(
+					":formatting" to
+						Runnable {
+							register("formatting") {
+								id = "dev.jaronline.formatting"
+								implementationClass = "dev.jaronline.gradle.formatting.FormattingPlugin"
+							}
+						},
+					":kotlin" to
+						Runnable {
+							register("kotlin") {
+								id = "dev.jaronline.project.kotlin"
+								implementationClass = "dev.jaronline.gradle.kotlin.KotlinPlugin"
+							}
+						},
+					":project" to
+						Runnable {
+							register("subprojectDependencies") {
+								id = "dev.jaronline.project.subproject-dependencies"
+								implementationClass = "dev.jaronline.gradle.project.SubprojectDependenciesPlugin"
+							}
+							register("readmeTemplate") {
+								id = "dev.jaronline.project.readme-template"
+								implementationClass = "dev.jaronline.gradle.project.readme.ReadmeTemplatePlugin"
+							}
+						},
+					":publish" to
+						Runnable {
+							register("publish") {
+								id = "dev.jaronline.publish"
+								implementationClass = "dev.jaronline.gradle.publish.PublishPlugin"
+							}
+						},
+				).filter { listOf(":", it.key).contains(path) }.values.forEach(Runnable::run)
 			}
 		}
 	}
