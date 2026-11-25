@@ -1,5 +1,5 @@
 [versions]
-build-logic = "0.8.0"
+build-logic = "0.9.0"
 
 # Common
 java = "25"
@@ -42,7 +42,6 @@ plugin-java-formatting = { group = "net.mezzdev.java-formatting", name = "net.me
 
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version.ref = "plugin-dokka" }
-java-formatting = { id = "net.mezzdev.java-formatting", version.ref = "plugin-java-formatting" }
 
 # Jaronline
 jaronline-formatting = { id = "dev.jaronline.formatting", version.ref = "build-logic" }
