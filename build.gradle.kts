@@ -9,11 +9,11 @@ plugins {
 	id("dev.jaronline.project")
 	alias(libs.plugins.jaronline.subproject.dependencies)
 	alias(libs.plugins.jaronline.readme.template)
+	alias(libs.plugins.java.formatting)
 	alias(libs.plugins.jaronline.formatting)
-	id("dev.jaronline.kotlin.formatting")
 	id("dev.jaronline.report.jacoco.aggregation")
 	`kotlin-dsl`
-	id("org.jetbrains.dokka")
+	alias(libs.plugins.dokka)
 	id("dev.jaronline.jar")
 	alias(libs.plugins.jaronline.publish)
 	`java-gradle-plugin`
@@ -125,6 +125,11 @@ spotless {
 			"buildSrc/*/*.gradle.kts",
 			*subprojects.map { "${it.projectDir.path}/*.gradle.kts" }.toTypedArray(),
 		)
+		baseJaronlineRules()
+	}
+
+	kotlin {
+		target("*/src/*/kotlin/dev/jaronline/**/*.kt")
 		baseJaronlineRules()
 	}
 }

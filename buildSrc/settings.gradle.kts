@@ -10,7 +10,6 @@ rootProject.name = "buildSrc"
 include(
 	"build-properties",
 	"project",
-	"kotlin",
 	"test",
 	"report",
 )
