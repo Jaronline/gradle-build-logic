@@ -1,4 +1,5 @@
 import dev.jaronline.gradle.formatting.baseJaronlineRules
+import dev.jaronline.gradle.project.blameJared
 import dev.jaronline.gradle.project.githubPackages
 import dev.jaronline.gradle.project.jaronline
 import dev.jaronline.gradle.publish.gitScm
@@ -137,7 +138,7 @@ spotless {
 
 repositories {
 	exclusiveContent {
-		forRepository { maven("https://maven.blamejared.com/") }
+		forRepository { blameJared() }
 		filter {
 			includeGroup("net.mezzdev.java-formatting")
 			includeModule("net.mezzdev.gradle", "JavaFormatting")

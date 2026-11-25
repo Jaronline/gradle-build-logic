@@ -1,5 +1,5 @@
 [versions]
-build-logic = "0.9.0"
+build-logic = "0.10.0"
 
 # Common
 java = "25"

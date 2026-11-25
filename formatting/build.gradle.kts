@@ -1,3 +1,5 @@
+import dev.jaronline.gradle.project.blameJared
+
 plugins {
 	`kotlin-dsl`
 	id("dev.jaronline.jar")
@@ -9,7 +11,7 @@ plugins {
 repositories {
 	gradlePluginPortal()
 	exclusiveContent {
-		forRepository { maven("https://maven.blamejared.com/") }
+		forRepository { blameJared() }
 		filter {
 			includeGroup("net.mezzdev.java-formatting")
 			includeModule("net.mezzdev.gradle", "JavaFormatting")
