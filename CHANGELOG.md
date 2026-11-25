@@ -8,8 +8,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ### Added
 
-- RepositoryHandler extension methods for the BlameJared Maven repository
-
 ### Changed
 
 ### Deprecated
@@ -19,6 +17,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 ### Fixed
 
 ### Security
+
+## [0.10.0] - 2026-11-25
+
+### Added
+
+- RepositoryHandler extension methods for the BlameJared Maven repository
 
 ## [0.9.0] - 2026-11-25
 
@@ -99,7 +103,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 - Kotlin project plugin
 - Base plugin for shared properties and extensions
 
-[Unreleased]: https://github.com/Jaronline/gradle-build-logic/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/Jaronline/gradle-build-logic/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.6.0...v0.7.0

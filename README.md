@@ -37,7 +37,7 @@ Then apply one or more of the plugins to your project:
 ```kotlin
 // build.gradle.kts
 plugins {
-    id("dev.jaronline.<plugin>") version "0.9.0"
+    id("dev.jaronline.<plugin>") version "0.10.0"
 }
 ```
 
