@@ -4,6 +4,8 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.testfixtures.ProjectBuilder
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertInstanceOf
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -79,6 +81,37 @@ class RepositoryHandlerExtensionsTest {
 		val resultRepository = repositories[0] as MavenArtifactRepository
 		assertEquals("githubPackages", resultRepository.name)
 		assertEquals("https://maven.pkg.github.com/$owner/$repository", resultRepository.url.toString())
+		assertEquals("testUsername", resultRepository.credentials.username)
+		assertEquals("testPassword", resultRepository.credentials.password)
+	}
+
+	@Test
+	@DisplayName("WHEN calling RepositoryHandler#blameJared() THEN adds BlameJared repository correctly")
+	fun `test BlameJared repository is added correctly`() {
+		repositories.blameJared()
+
+		assertEquals(1, repositories.size)
+		assertInstanceOf<MavenArtifactRepository>(repositories[0])
+		val resultRepository = repositories[0] as MavenArtifactRepository
+		assertEquals("blameJared", resultRepository.name)
+		assertEquals("https://maven.blamejared.com/", resultRepository.url.toString())
+	}
+
+	@Test
+	@DisplayName("WHEN calling RepositoryHandler#blameJared(action) THEN adds BlameJared repository correctly")
+	fun `test BlameJared repository with action is added correctly`() {
+		repositories.blameJared {
+			credentials {
+				username = "testUsername"
+				password = "testPassword"
+			}
+		}
+
+		assertEquals(1, repositories.size)
+		assertInstanceOf<MavenArtifactRepository>(repositories[0])
+		val resultRepository = repositories[0] as MavenArtifactRepository
+		assertEquals("blameJared", resultRepository.name)
+		assertEquals("https://maven.blamejared.com/", resultRepository.url.toString())
 		assertEquals("testUsername", resultRepository.credentials.username)
 		assertEquals("testPassword", resultRepository.credentials.password)
 	}
