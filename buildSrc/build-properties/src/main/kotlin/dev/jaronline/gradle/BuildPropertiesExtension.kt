@@ -17,15 +17,6 @@ abstract class BuildPropertiesExtension(private val project: Project) {
     val projectName = gradleProperty("name")
     val projectDescription = gradleProperty("description")
     val projectInceptionYear = gradleProperty("inception_year")
-    val projectLicense = gradleProperty("license")
-    val projectLicenseUrl = gradleProperty("license_url")
-    val projectLicenseDistribution = gradleProperty("license_distribution")
-    val developerId = gradleProperty("developer_id")
-    val developerName = gradleProperty("developer_name")
-    val developerUrl = gradleProperty("developer_url")
-    val developerEmail = gradleProperty("developer_email")
-    val developerOrganization = gradleProperty("developer_organization")
-    val developerOrganizationUrl = gradleProperty("developer_organization_url")
 
     val projectVersion = gradleProperty("version")
 
