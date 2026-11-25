@@ -15,6 +15,7 @@ plugin-spotless-changelog = "3.1.2"
 plugin-dokka = "2.3.0"
 plugin-spotless = "8.12.0"
 plugin-maven-publish = "0.37.0"
+plugin-java-formatting = "0.4.0"
 
 [libraries]
 # Testing
@@ -36,6 +37,8 @@ plugin-dokka = { group = "org.jetbrains.dokka", name = "org.jetbrains.dokka.grad
 plugin-spotless = { group = "com.diffplug.spotless", name = "com.diffplug.spotless.gradle.plugin", version.ref = "plugin-spotless" }
 # https://plugins.gradle.org/plugin/com.vanniktech.maven.publish
 plugin-maven-publish = { group = "com.vanniktech", name = "gradle-maven-publish-plugin", version.ref = "plugin-maven-publish" }
+# https://maven.blamejared.com/net/mezzdev/java-formatting/net.mezzdev.java-formatting.gradle.plugin/maven-metadata.xml
+plugin-java-formatting = { group = "net.mezzdev.java-formatting", name = "net.mezzdev.java-formatting.gradle.plugin", version.ref = "plugin-java-formatting" }
 
 [plugins]
 # Jaronline
