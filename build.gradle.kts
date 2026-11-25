@@ -9,7 +9,6 @@ plugins {
 	id("dev.jaronline.project")
 	alias(libs.plugins.jaronline.subproject.dependencies)
 	alias(libs.plugins.jaronline.readme.template)
-	alias(libs.plugins.java.formatting)
 	alias(libs.plugins.jaronline.formatting)
 	id("dev.jaronline.report.jacoco.aggregation")
 	`kotlin-dsl`
