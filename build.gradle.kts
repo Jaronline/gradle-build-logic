@@ -59,7 +59,7 @@ tasks.named<Test>("smokeTest") {
 }
 
 dependencies {
-	jacocoAggregation(project(":kotlin"))
+	@Suppress("AvoidDuplicateDependencies")
 	subprojects.forEach {
 		dependencyClasses(project(it.path)) {
 			isTransitive = false
@@ -70,6 +70,7 @@ dependencies {
 		dependencySources(project(it.path)) {
 			isTransitive = false
 		}
+		jacocoAggregation(project(it.path))
 		dokka(project(it.path))
 	}
 	api(libs.plugin.spotless)
