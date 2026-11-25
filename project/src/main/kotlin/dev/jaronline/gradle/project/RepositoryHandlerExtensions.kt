@@ -28,3 +28,14 @@ fun RepositoryHandler.githubPackages(
 		name = "githubPackages"
 		action.execute(this)
 	}
+
+fun RepositoryHandler.blameJared(): MavenArtifactRepository =
+	maven("https://maven.blamejared.com/") {
+		name = "blameJared"
+	}
+
+fun RepositoryHandler.blameJared(action: Action<MavenArtifactRepository>): MavenArtifactRepository {
+	val repo = blameJared()
+	action.execute(repo)
+	return repo
+}
