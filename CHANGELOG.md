@@ -8,6 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.12.0] - 2026-11-26
+
+### Added
+
 - JvmComponentDependencies extension methods for JUnit dependency notations
 - JvmComponentDependencies extension method for Mockito dependency notations
 - JvmComponentDependencies extension method for Kotlin dependency notations
@@ -17,14 +31,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 - Return types of `DependencyHandler#junit`, `DependencyHandler#junitJupiter`, and `DependencyHandler#junitPlatform` changed from `Any` to `String`
 - Return type of `DependencyHandler#mockito` changed from `Any` to `String`
 - Return type of `MockitoExtension#library` changed from `Provider<Any>` to `Provider<String>`
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [0.11.0] - 2026-11-26
 
@@ -121,7 +127,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 - Kotlin project plugin
 - Base plugin for shared properties and extensions
 
-[Unreleased]: https://github.com/Jaronline/gradle-build-logic/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/Jaronline/gradle-build-logic/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/Jaronline/gradle-build-logic/compare/v0.8.0...v0.9.0
