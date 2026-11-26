@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ### Changed
 
+- Return types of `DependencyHandler#junit`, `DependencyHandler#junitJupiter`, and `DependencyHandler#junitPlatform` changed from `Any` to `String`
+- Return type of `DependencyHandler#mockito` changed from `Any` to `String`
+- Return type of `MockitoExtension#library` changed from `Provider<Any>` to `Provider<String>`
+
 ### Deprecated
 
 ### Removed

@@ -12,5 +12,5 @@ abstract class MockitoExtension {
 		version.convention(DEFAULT_MOCKITO_VERSION)
 	}
 
-	fun library(artifact: String): Provider<Any> = version.map { mockitoLibrary(artifact, it) }
+	fun library(artifact: String): Provider<String> = version.map { mockitoLibrary(artifact, it) }
 }
