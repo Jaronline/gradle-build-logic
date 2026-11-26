@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 - JvmComponentDependencies extension methods for JUnit dependency notations
 - JvmComponentDependencies extension method for Mockito dependency notations
+- JvmComponentDependencies extension method for Kotlin dependency notations
 
 ### Changed
 
