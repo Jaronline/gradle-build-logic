@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ### Added
 
+- JvmComponentDependencies extension methods for JUnit dependency notations
+- JvmComponentDependencies extension method for Mockito dependency notations
+
 ### Changed
 
 - Return types of `DependencyHandler#junit`, `DependencyHandler#junitJupiter`, and `DependencyHandler#junitPlatform` changed from `Any` to `String`
