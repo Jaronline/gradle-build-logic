@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class DependencyHandlerExtensionsTest {
+class DependencyExtensionsTest {
 	lateinit var project: Project
 
 	@BeforeEach
