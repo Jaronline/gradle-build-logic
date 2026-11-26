@@ -9,18 +9,15 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.findByType
 
 class PublishPlugin : Plugin<Project> {
-	override fun apply(project: Project) {
-		project.configurePublishing()
-	}
-}
+	override fun apply(project: Project): Unit =
+		project.run {
+			pluginManager.apply(MavenPublishPlugin::class.java)
 
-private fun Project.configurePublishing() {
-	pluginManager.apply(MavenPublishPlugin::class.java)
+			val base = extensions.findByType<BasePluginExtension>()
 
-	val base = extensions.findByType<BasePluginExtension>()
-
-	extensions.configure<MavenPublishBaseExtension> {
-		signAllPublications()
-		coordinates(group.toString(), base?.archivesName?.orNull ?: projectDir.name, version.toString())
-	}
+			extensions.configure<MavenPublishBaseExtension> {
+				signAllPublications()
+				coordinates(group.toString(), base?.archivesName?.orNull ?: projectDir.name, version.toString())
+			}
+		}
 }

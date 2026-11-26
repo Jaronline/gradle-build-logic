@@ -7,10 +7,11 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class FormattingPlugin : Plugin<Project> {
-	override fun apply(project: Project) {
-		project.pluginManager.apply(SpotlessPlugin::class.java)
-		project.pluginManager.apply(SpotlessFormattingPlugin::class.java)
-	}
+	override fun apply(project: Project): Unit =
+		project.run {
+			pluginManager.apply(SpotlessPlugin::class.java)
+			pluginManager.apply(SpotlessFormattingPlugin::class.java)
+		}
 }
 
 fun BaseKotlinExtension.baseJaronlineRules() {

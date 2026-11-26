@@ -7,25 +7,23 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 
 class JarPlugin : Plugin<Project> {
-	override fun apply(project: Project) {
-		project.configureJar()
-	}
-}
+	override fun apply(project: Project): Unit = project.run {
+		pluginManager.apply(BuildPropertiesPlugin::class.java)
+		val buildProperties = the<BuildPropertiesExtension>()
 
-private fun Project.configureJar() {
-	pluginManager.apply(BuildPropertiesPlugin::class.java)
-	val buildProperties = the<BuildPropertiesExtension>()
-
-	tasks.withType<Jar>().configureEach {
-		manifest {
-			attributes(mapOf(
-				"Specification-Title" to project.name,
-				"Specification-Vendor" to buildProperties.vendor.get(),
-				"Specification-Version" to rootProject.version,
-				"Implementation-Title" to name,
-				"Implementation-Vendor" to buildProperties.vendor.get(),
-				"Implementation-Version" to rootProject.version
-			))
+		tasks.withType<Jar>().configureEach {
+			manifest {
+				attributes(
+					mapOf(
+						"Specification-Title" to project.name,
+						"Specification-Vendor" to buildProperties.vendor.get(),
+						"Specification-Version" to rootProject.version,
+						"Implementation-Title" to name,
+						"Implementation-Vendor" to buildProperties.vendor.get(),
+						"Implementation-Version" to rootProject.version
+					)
+				)
+			}
 		}
 	}
 }

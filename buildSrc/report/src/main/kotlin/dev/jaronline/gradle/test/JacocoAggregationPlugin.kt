@@ -10,31 +10,27 @@ import org.gradle.testing.jacoco.plugins.JacocoCoverageReport
 import org.gradle.testing.jacoco.plugins.JacocoReportAggregationPlugin
 
 class JacocoAggregationPlugin : Plugin<Project> {
-	override fun apply(project: Project) {
-		project.configureJacocoAggregation()
-	}
-}
-
-private fun Project.configureJacocoAggregation() {
-	@Suppress("UnstableApiUsage")
-	pluginManager.apply(JacocoReportAggregationPlugin::class.java)
-
-	extensions.configure<ReportingExtension> {
+	override fun apply(project: Project): Unit = project.run {
 		@Suppress("UnstableApiUsage")
-		reports {
-			named<JacocoCoverageReport>("testCodeCoverageReport") {
-				testSuiteName.set("test")
+		pluginManager.apply(JacocoReportAggregationPlugin::class.java)
+
+		extensions.configure<ReportingExtension> {
+			@Suppress("UnstableApiUsage")
+			reports {
+				named<JacocoCoverageReport>("testCodeCoverageReport") {
+					testSuiteName.set("test")
+				}
 			}
 		}
-	}
 
-	val configureTestTask: Task.() -> Unit = {
-		dependsOn(subprojects.mapNotNull { it.tasks.findByName("test") })
-		finalizedBy(tasks.named("testCodeCoverageReport"))
-	}
+		val configureTestTask: Task.() -> Unit = {
+			dependsOn(subprojects.mapNotNull { it.tasks.findByName("test") })
+			finalizedBy(tasks.named("testCodeCoverageReport"))
+		}
 
-	if (tasks.findByName("test") == null)
-		tasks.register("test", configureTestTask)
-	else
-		tasks.named("test", configureTestTask)
+		if (tasks.findByName("test") == null)
+			tasks.register("test", configureTestTask)
+		else
+			tasks.named("test", configureTestTask)
+	}
 }
