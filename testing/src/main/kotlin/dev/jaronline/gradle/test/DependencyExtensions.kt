@@ -6,14 +6,14 @@ fun DependencyHandler.junit(
 	group: String,
 	artifact: String,
 	version: String? = null,
-): Any = "org.junit.$group:junit-$artifact${version?.let { ":$it" } ?: ""}"
+): String = "org.junit.$group:junit-$artifact${version?.let { ":$it" } ?: ""}"
 
 fun DependencyHandler.junitJupiter(
 	artifact: String,
 	version: String? = null,
-): Any = junit("jupiter", "jupiter-$artifact", version)
+): String = junit("jupiter", "jupiter-$artifact", version)
 
 fun DependencyHandler.junitPlatform(
 	artifact: String,
 	version: String? = null,
-): Any = junit("platform", "platform-$artifact", version)
+): String = junit("platform", "platform-$artifact", version)
