@@ -1,4 +1,5 @@
 import dev.jaronline.gradle.formatting.baseJaronlineRules
+import dev.jaronline.gradle.kotlin.kotlin
 import dev.jaronline.gradle.project.blameJared
 import dev.jaronline.gradle.project.githubPackages
 import dev.jaronline.gradle.project.jaronline
@@ -6,6 +7,8 @@ import dev.jaronline.gradle.publish.gitScm
 import dev.jaronline.gradle.publish.jaronlineDeveloper
 import dev.jaronline.gradle.publish.mitLicense
 import dev.jaronline.gradle.test.defaultTestLogging
+import dev.jaronline.gradle.test.junitJupiter
+import dev.jaronline.gradle.test.junitPlatform
 
 plugins {
 	id("dev.jaronline.project")
@@ -212,10 +215,10 @@ allprojects {
 					}
 
 					dependencies {
-						implementation(libs.junit.jupiter.api)
-						implementation("org.jetbrains.kotlin:kotlin-test:${libs.versions.kotlin.get()}")
-						runtimeOnly(libs.junit.jupiter.engine)
-						runtimeOnly(libs.junit.platform.launcher)
+						implementation(junitJupiter("api", libs.versions.junit.get()))
+						implementation(kotlin("test", libs.versions.kotlin.get()))
+						runtimeOnly(junitJupiter("engine"))
+						runtimeOnly(junitPlatform("launcher"))
 					}
 				}
 			}

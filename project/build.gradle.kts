@@ -1,3 +1,4 @@
+import dev.jaronline.gradle.test.junitJupiter
 import dev.jaronline.gradle.test.mockito.useMockitoAgent
 
 plugins {
@@ -20,8 +21,8 @@ testing {
 	suites {
 		val test = named<JvmTestSuite>("test") {
 			dependencies {
-				implementation(libs.junit.jupiter.params)
-				implementation(mockito.library("junit-jupiter").get() as String)
+				implementation(junitJupiter("params"))
+				implementation(mockito.library("junit-jupiter").get())
 			}
 
 			targets {
