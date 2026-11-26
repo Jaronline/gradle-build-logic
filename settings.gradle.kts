@@ -42,4 +42,5 @@ include(
 	"formatting",
 	"publish",
 	"project",
+	"testing",
 )

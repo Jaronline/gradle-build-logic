@@ -48,3 +48,4 @@ plugins {
 - `dev.jaronline.project.readme-template`
 - `dev.jaronline.project.subproject-dependencies`
 - `dev.jaronline.publish`
+- `dev.jaronline.test.mockito`
