@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 
 ### Added
 
+- DependencyHandler extensions for JUnit dependency notations
+- DependencyHandler extension for Mockito dependency notations
+- Test task extension for default test logging configuration
+- Test task extension for Mockito agent provider
+- Mockito plugin for Mockito configuration
+
 ### Changed
 
 ### Deprecated

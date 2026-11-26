@@ -1,0 +1,52 @@
+package dev.jaronline.gradle.test
+
+import org.gradle.api.Project
+import org.gradle.testfixtures.ProjectBuilder
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+
+class DependencyHandlerExtensionsTest {
+	lateinit var project: Project
+
+	@BeforeEach
+	fun setup() {
+		project = ProjectBuilder.builder().build()
+	}
+
+	@Test
+	fun `test junit(group, artifact) returns correct dependency notation`() {
+		val result = project.dependencies.junit("jupiter", "jupiter-api")
+		assertEquals("org.junit.jupiter:junit-jupiter-api", result)
+	}
+
+	@Test
+	fun `test junit(group, artifact, version) returns correct dependency notation`() {
+		val result = project.dependencies.junit("jupiter", "jupiter-api", "6.1.3")
+		assertEquals("org.junit.jupiter:junit-jupiter-api:6.1.3", result)
+	}
+
+	@Test
+	fun `test junitJupiter(artifact) returns correct dependency notation`() {
+		val result = project.dependencies.junitJupiter("api")
+		assertEquals("org.junit.jupiter:junit-jupiter-api", result)
+	}
+
+	@Test
+	fun `test junitJupiter(artifact, version) returns correct dependency notation`() {
+		val result = project.dependencies.junitJupiter("api", "6.1.3")
+		assertEquals("org.junit.jupiter:junit-jupiter-api:6.1.3", result)
+	}
+
+	@Test
+	fun `test junitPlatform(artifact) returns correct dependency notation`() {
+		val result = project.dependencies.junitPlatform("launcher")
+		assertEquals("org.junit.platform:junit-platform-launcher", result)
+	}
+
+	@Test
+	fun `test junitPlatform(artifact, version) returns correct dependency notation`() {
+		val result = project.dependencies.junitPlatform("launcher", "6.1.3")
+		assertEquals("org.junit.platform:junit-platform-launcher:6.1.3", result)
+	}
+}

@@ -235,6 +235,13 @@ allprojects {
 								implementationClass = "dev.jaronline.gradle.publish.PublishPlugin"
 							}
 						},
+					":testing" to
+						Runnable {
+							register("mockito") {
+								id = "dev.jaronline.test.mockito"
+								implementationClass = "dev.jaronline.gradle.test.mockito.MockitoPlugin"
+							}
+						},
 				).filter { listOf(":", it.key).contains(path) }.values.forEach(Runnable::run)
 			}
 		}
