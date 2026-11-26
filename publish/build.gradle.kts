@@ -1,10 +1,12 @@
+import dev.jaronline.gradle.test.junitJupiter
+import dev.jaronline.gradle.test.mockito.useMockitoAgent
+
 plugins {
 	id("dev.jaronline.build-properties")
 	`kotlin-dsl`
 	id("dev.jaronline.jar")
 	id("org.jetbrains.dokka")
-	id("dev.jaronline.test")
-	id("dev.jaronline.test.mockito")
+	alias(libs.plugins.jaronline.mockito)
 	id("dev.jaronline.report.jacoco")
 }
 
@@ -16,19 +18,19 @@ repositories {
 
 dependencies {
 	implementation(libs.plugin.maven.publish)
-	testImplementation(libs.junit.jupiter.params)
-	testImplementation(kotlin("test", libs.versions.kotlin.get()))
+	testImplementation(junitJupiter("params", libs.versions.junit.get()))
+	testImplementation(mockito.library("junit-jupiter"))
 }
 
 sourceSets {
-	named("main") {
+	configureEach {
 		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}
-	named("test") {
-		java.setSrcDirs(listOf<String>())
-		resources.setSrcDirs(listOf<String>())
-	}
+}
+
+tasks.test {
+	useMockitoAgent()
 }
 
 java {

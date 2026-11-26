@@ -1,10 +1,11 @@
+import dev.jaronline.gradle.test.mockito.useMockitoAgent
+
 plugins {
 	id("dev.jaronline.build-properties")
 	`kotlin-dsl`
 	id("dev.jaronline.jar")
 	id("org.jetbrains.dokka")
-	id("dev.jaronline.test")
-	id("dev.jaronline.test.mockito")
+	alias(libs.plugins.jaronline.mockito)
 	id("dev.jaronline.report.jacoco")
 }
 
@@ -17,6 +18,21 @@ repositories {
 testing {
 	@Suppress("UnstableApiUsage")
 	suites {
+		val test = named<JvmTestSuite>("test") {
+			dependencies {
+				implementation(libs.junit.jupiter.params)
+				implementation(mockito.library("junit-jupiter").get() as String)
+			}
+
+			targets {
+				all {
+					testTask.configure {
+						useMockitoAgent()
+					}
+				}
+			}
+		}
+
 		val integrationTest = register<JvmTestSuite>("integrationTest") {
 			dependencies {
 				implementation(project())
@@ -26,7 +42,7 @@ testing {
 			targets {
 				all {
 					testTask.configure {
-						shouldRunAfter(testing.suites.named("test"))
+						shouldRunAfter(test)
 					}
 				}
 			}
@@ -44,32 +60,23 @@ testing {
 	}
 }
 
-dependencies {
-	testImplementation(libs.junit.jupiter.params)
-	testImplementation(kotlin("test", libs.versions.kotlin.get()))
-}
-
 sourceSets {
 	named("main") {
-		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}
 	named("test") {
-		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}
 	named("integrationTest") {
-		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
+	}
+	configureEach {
+		java.setSrcDirs(listOf<String>())
 	}
 }
 
-val functionalTest = sourceSets.named("functionalTest") {
-	java.setSrcDirs(listOf<String>())
-}
-
 gradlePlugin {
-	testSourceSets(functionalTest.get())
+	testSourceSets(sourceSets.named("functionalTest").get())
 }
 
 java {

@@ -1,5 +1,5 @@
 [versions]
-build-logic = "0.10.0"
+build-logic = "0.11.0"
 
 # Common
 java = "25"
@@ -48,3 +48,4 @@ jaronline-formatting = { id = "dev.jaronline.formatting", version.ref = "build-l
 jaronline-publish = { id = "dev.jaronline.publish", version.ref = "build-logic" }
 jaronline-subproject-dependencies = { id = "dev.jaronline.project.subproject-dependencies", version.ref = "build-logic" }
 jaronline-readme-template = { id = "dev.jaronline.project.readme-template", version.ref = "build-logic" }
+jaronline-mockito = { id = "dev.jaronline.test.mockito", version.ref = "build-logic" }
