@@ -6,13 +6,7 @@ fun DependencyHandler.junit(
 	group: String,
 	artifact: String,
 	version: String? = null,
-): Any {
-	val dependency = "org.junit.$group:junit-$artifact"
-	if (version != null) {
-		return "$dependency:$version"
-	}
-	return dependency
-}
+): Any = "org.junit.$group:junit-$artifact${version?.let { ":$it" } ?: ""}"
 
 fun DependencyHandler.junitJupiter(
 	artifact: String,
