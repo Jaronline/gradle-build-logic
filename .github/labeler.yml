@@ -41,3 +41,8 @@ versions:
       - any-glob-to-any-file:
           - publish/*
           - publish/**/*
+"module: testing":
+  - changed-files:
+      - any-glob-to-any-file:
+          - testing/*
+          - testing/**/*
