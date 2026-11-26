@@ -10,10 +10,4 @@ fun DependencyHandler.mockito(
 internal fun mockitoLibrary(
 	artifact: String,
 	version: String?,
-): Any {
-	val dependency = "org.mockito:mockito-$artifact"
-	if (version != null) {
-		return "$dependency:$version"
-	}
-	return dependency
-}
+): Any = "org.mockito:mockito-$artifact${version?.let { ":$it" } ?: ""}"
