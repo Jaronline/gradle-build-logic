@@ -7,15 +7,11 @@ import org.gradle.kotlin.dsl.named
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 
 class JacocoReportPlugin : Plugin<Project> {
-	override fun apply(project: Project) {
-		project.configureJacocoReporting()
-	}
-}
+	override fun apply(project: Project): Unit = project.run {
+		pluginManager.apply(JacocoPlugin::class.java)
 
-private fun Project.configureJacocoReporting() {
-	pluginManager.apply(JacocoPlugin::class.java)
-
-	tasks.named<Test>("test") {
-		finalizedBy(tasks.named("jacocoTestReport"))
+		tasks.named<Test>("test") {
+			finalizedBy(tasks.named("jacocoTestReport"))
+		}
 	}
 }
