@@ -1,9 +1,11 @@
 import dev.jaronline.gradle.formatting.baseJaronlineRules
+import dev.jaronline.gradle.project.blameJared
 import dev.jaronline.gradle.project.githubPackages
 import dev.jaronline.gradle.project.jaronline
 import dev.jaronline.gradle.publish.gitScm
 import dev.jaronline.gradle.publish.jaronlineDeveloper
 import dev.jaronline.gradle.publish.mitLicense
+import dev.jaronline.gradle.test.defaultTestLogging
 
 plugins {
 	id("dev.jaronline.project")
@@ -15,13 +17,23 @@ plugins {
 	alias(libs.plugins.dokka)
 	id("dev.jaronline.jar")
 	alias(libs.plugins.jaronline.publish)
-	`java-gradle-plugin`
+	alias(libs.plugins.jaronline.mockito) apply false
 }
 
 testing {
 	@Suppress("UnstableApiUsage")
 	suites {
-		val smokeTest = register<JvmTestSuite>("smokeTest")
+		val smokeTest =
+			register<JvmTestSuite>("smokeTest") {
+				targets {
+					all {
+						testTask.configure {
+							systemProperty("publishedPluginVersion", project.version.toString())
+							dependsOn(tasks.publishToMavenLocal)
+						}
+					}
+				}
+			}
 
 		named<JvmTestSuite>("test") {
 			targets {
@@ -37,26 +49,21 @@ testing {
 
 sourceSets {
 	main {
-		java.setSrcDirs(listOf<String>())
 		kotlin.setSrcDirs(listOf<String>())
 	}
 	test {
-		java.setSrcDirs(listOf<String>())
 		kotlin.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
+	}
+	configureEach {
+		java.setSrcDirs(listOf<String>())
 	}
 }
 
 val smokeTest =
 	sourceSets.named("smokeTest") {
-		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}
-
-tasks.named<Test>("smokeTest") {
-	systemProperty("publishedPluginVersion", project.version.toString())
-	dependsOn(tasks.publishToMavenLocal)
-}
 
 dependencies {
 	@Suppress("AvoidDuplicateDependencies")
@@ -78,11 +85,6 @@ dependencies {
 	api(kotlin("gradle-plugin", libs.versions.kotlin.get()))
 	api(libs.plugin.dokka)
 	api(libs.plugin.maven.publish)
-
-	"smokeTestImplementation"(libs.junit.jupiter.api)
-	"smokeTestImplementation"(kotlin("test", libs.versions.kotlin.get()))
-	"smokeTestRuntimeOnly"(libs.junit.jupiter.engine)
-	"smokeTestRuntimeOnly"(libs.junit.platform.launcher)
 }
 
 gradlePlugin {
@@ -137,7 +139,7 @@ spotless {
 
 repositories {
 	exclusiveContent {
-		forRepository { maven("https://maven.blamejared.com/") }
+		forRepository { blameJared() }
 		filter {
 			includeGroup("net.mezzdev.java-formatting")
 			includeModule("net.mezzdev.gradle", "JavaFormatting")
@@ -195,6 +197,31 @@ afterEvaluate {
 }
 
 allprojects {
+	plugins.withId("jvm-test-suite") {
+		testing {
+			suites {
+				@Suppress("UnstableApiUsage")
+				withType<JvmTestSuite>().configureEach {
+					targets {
+						all {
+							testTask.configure {
+								useJUnitPlatform()
+								defaultTestLogging()
+							}
+						}
+					}
+
+					dependencies {
+						implementation(libs.junit.jupiter.api)
+						implementation("org.jetbrains.kotlin:kotlin-test:${libs.versions.kotlin.get()}")
+						runtimeOnly(libs.junit.jupiter.engine)
+						runtimeOnly(libs.junit.platform.launcher)
+					}
+				}
+			}
+		}
+	}
+
 	plugins.withId("java-gradle-plugin") {
 		gradlePlugin {
 			if (path != ":") {

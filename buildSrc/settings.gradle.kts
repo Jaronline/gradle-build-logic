@@ -10,6 +10,5 @@ rootProject.name = "buildSrc"
 include(
 	"build-properties",
 	"project",
-	"test",
 	"report",
 )

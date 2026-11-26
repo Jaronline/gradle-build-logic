@@ -3,7 +3,6 @@ plugins {
 	`kotlin-dsl`
 	id("dev.jaronline.jar")
 	id("org.jetbrains.dokka")
-	id("dev.jaronline.test")
 	id("dev.jaronline.report.jacoco")
 }
 
@@ -17,15 +16,10 @@ dependencies {
 	implementation(kotlin("gradle-plugin", libs.versions.kotlin.get()))
 	implementation(libs.plugin.dokka)
 	testImplementation(gradleApi())
-	testImplementation(kotlin("test", libs.versions.kotlin.get()))
 }
 
 sourceSets {
-	named("main") {
-		java.setSrcDirs(listOf<String>())
-		resources.setSrcDirs(listOf<String>())
-	}
-	named("test") {
+	configureEach {
 		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}

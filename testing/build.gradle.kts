@@ -3,7 +3,6 @@ plugins {
 	`kotlin-dsl`
 	id("dev.jaronline.jar")
 	id("org.jetbrains.dokka")
-	id("dev.jaronline.test")
 	id("dev.jaronline.report.jacoco")
 }
 
@@ -14,16 +13,8 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	testImplementation(kotlin("test", libs.versions.kotlin.get()))
-}
-
 sourceSets {
-	named("main") {
-		java.setSrcDirs(listOf<String>())
-		resources.setSrcDirs(listOf<String>())
-	}
-	named("test") {
+	configureEach {
 		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}

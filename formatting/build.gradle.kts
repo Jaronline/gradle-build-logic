@@ -1,15 +1,16 @@
+import dev.jaronline.gradle.project.blameJared
+
 plugins {
 	`kotlin-dsl`
 	id("dev.jaronline.jar")
 	id("org.jetbrains.dokka")
-	id("dev.jaronline.test")
 	id("dev.jaronline.report.jacoco")
 }
 
 repositories {
 	gradlePluginPortal()
 	exclusiveContent {
-		forRepository { maven("https://maven.blamejared.com/") }
+		forRepository { blameJared() }
 		filter {
 			includeGroup("net.mezzdev.java-formatting")
 			includeModule("net.mezzdev.gradle", "JavaFormatting")
@@ -19,8 +20,8 @@ repositories {
 }
 
 testing {
+	@Suppress("UnstableApiUsage")
 	suites {
-		@Suppress("UnstableApiUsage")
 		register<JvmTestSuite>("functionalTest") {
 			targets {
 				all {
@@ -36,26 +37,22 @@ testing {
 dependencies {
 	implementation(libs.plugin.spotless)
 	implementation(libs.plugin.java.formatting)
-	testImplementation(kotlin("test", libs.versions.kotlin.get()))
 }
 
 sourceSets {
 	named("main") {
-		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}
 	named("test") {
-		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
+	}
+	configureEach {
+		java.setSrcDirs(listOf<String>())
 	}
 }
 
-val functionalTest = sourceSets.named("functionalTest") {
-	java.setSrcDirs(listOf<String>())
-}
-
 gradlePlugin {
-	testSourceSets(functionalTest.get())
+	testSourceSets(sourceSets.named("functionalTest").get())
 }
 
 java {
