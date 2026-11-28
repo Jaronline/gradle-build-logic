@@ -6,7 +6,6 @@ plugins {
 	`kotlin-dsl`
 	id("dev.jaronline.jar")
 	id("org.jetbrains.dokka")
-	alias(libs.plugins.jaronline.mockito)
 	id("dev.jaronline.report.jacoco")
 }
 
@@ -17,9 +16,7 @@ repositories {
 }
 
 dependencies {
-	implementation(libs.plugin.maven.publish)
 	testImplementation(junitJupiter("params", libs.versions.junit.get()))
-	testImplementation(mockito.library("junit-jupiter"))
 }
 
 sourceSets {
@@ -27,10 +24,6 @@ sourceSets {
 		java.setSrcDirs(listOf<String>())
 		resources.setSrcDirs(listOf<String>())
 	}
-}
-
-tasks.test {
-	useMockitoAgent()
 }
 
 java {
