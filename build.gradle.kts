@@ -35,11 +35,38 @@ testing {
 	suites {
 		val smokeTest =
 			register<JvmTestSuite>("smokeTest") {
+				dependencies {
+					implementation(junitJupiter("params", libs.versions.junit.get()))
+				}
+
 				targets {
 					all {
 						testTask.configure {
+							val jarFileProvider = tasks.jar.flatMap { it.archiveFile }
+							val externalClasspath =
+								configurations.named("runtimeClasspath").map { cfg ->
+									cfg.files -
+										sourceSets.main
+											.get()
+											.output.files
+								}
+
+							dependsOn(tasks.jar, tasks.publishToMavenLocal)
+							inputs.files(jarFileProvider, externalClasspath)
+
 							systemProperty("publishedPluginVersion", project.version.toString())
-							dependsOn(tasks.publishToMavenLocal)
+
+							doFirst {
+								val classpathFiles =
+									buildList {
+										add(jarFileProvider.get().asFile)
+										addAll(externalClasspath.get())
+									}
+								systemProperty(
+									"pluginClasspath",
+									classpathFiles.joinToString(File.pathSeparator) { it.absolutePath },
+								)
+							}
 						}
 					}
 				}
@@ -293,6 +320,10 @@ allprojects {
 			}
 		}
 	}
+}
+
+tasks.named<Test>("smokeTest") {
+	systemProperty("pluginIds", gradlePlugin.plugins.joinToString(File.pathSeparator) { it.id })
 }
 
 readmeTemplate {
