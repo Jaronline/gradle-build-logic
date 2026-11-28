@@ -265,6 +265,13 @@ allprojects {
 								implementationClass = "dev.jaronline.gradle.publish.PublishPlugin"
 							}
 						},
+					":reporting" to
+						Runnable {
+							register("jacocoAggregation") {
+								id = "dev.jaronline.reporting.jacoco.aggregation"
+								implementationClass = "dev.jaronline.gradle.reporting.JacocoAggregationPlugin"
+							}
+						},
 					":testing" to
 						Runnable {
 							register("mockito") {

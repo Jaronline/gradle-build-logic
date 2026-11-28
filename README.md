@@ -48,4 +48,5 @@ plugins {
 - `dev.jaronline.project.readme-template`
 - `dev.jaronline.project.subproject-dependencies`
 - `dev.jaronline.publish`
+- `dev.jaronline.reporting.jacoco.aggregation`
 - `dev.jaronline.test.mockito`
