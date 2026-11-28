@@ -56,7 +56,7 @@ class PublishedPluginSmokeTest {
 		projectDir.resolve("build.gradle.kts").writeText(
 			"""
             plugins {
-                id("dev.jaronline.publish") version "$pluginVersion"
+                id("dev.jaronline.project.kotlin") version "$pluginVersion"
             }
 
             tasks.register("smokeCheck") {

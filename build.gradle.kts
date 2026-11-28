@@ -121,7 +121,6 @@ dependencies {
 	api(libs.plugin.java.formatting)
 	api(kotlin("gradle-plugin", libs.versions.kotlin.get()))
 	api(libs.plugin.dokka)
-	api(libs.plugin.maven.publish)
 }
 
 gradlePlugin {
@@ -292,13 +291,6 @@ allprojects {
 							register("readmeTemplate") {
 								id = "dev.jaronline.project.readme-template"
 								implementationClass = "dev.jaronline.gradle.project.readme.ReadmeTemplatePlugin"
-							}
-						},
-					":publish" to
-						Runnable {
-							register("publish") {
-								id = "dev.jaronline.publish"
-								implementationClass = "dev.jaronline.gradle.publish.PublishPlugin"
 							}
 						},
 					":reporting" to
