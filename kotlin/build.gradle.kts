@@ -1,5 +1,5 @@
 plugins {
-	id("dev.jaronline.build-properties")
+	id("dev.jaronline.project")
 	`kotlin-dsl`
 	id("dev.jaronline.jar")
 	id("org.jetbrains.dokka")

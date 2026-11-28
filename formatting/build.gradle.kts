@@ -1,11 +1,14 @@
 import dev.jaronline.gradle.project.blameJared
 
 plugins {
+	id("dev.jaronline.project")
 	`kotlin-dsl`
 	id("dev.jaronline.jar")
 	id("org.jetbrains.dokka")
 	id("dev.jaronline.report.jacoco")
 }
+
+group = "${buildProperties.groupId.get()}.formatting"
 
 repositories {
 	gradlePluginPortal()
