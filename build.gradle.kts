@@ -12,6 +12,7 @@ import dev.jaronline.gradle.test.junitPlatform
 
 plugins {
 	id("dev.jaronline.project")
+	id("dev.jaronline.changelog")
 	alias(libs.plugins.jaronline.subproject.dependencies)
 	alias(libs.plugins.jaronline.readme.template)
 	alias(libs.plugins.jaronline.formatting)
@@ -19,8 +20,14 @@ plugins {
 	`kotlin-dsl`
 	alias(libs.plugins.dokka)
 	id("dev.jaronline.jar")
-	alias(libs.plugins.jaronline.publish)
+	alias(libs.plugins.maven.publish)
 	alias(libs.plugins.jaronline.mockito) apply false
+}
+
+version = buildProperties.projectVersion.getOrElse(spotlessChangelog.versionNext)
+
+subprojects.forEach {
+	project.evaluationDependsOn(it.path)
 }
 
 testing {
@@ -167,7 +174,9 @@ publishing {
 }
 
 mavenPublishing {
+	signAllPublications()
 	publishToMavenCentral()
+	coordinates(group.toString(), base.archivesName.get(), version.toString())
 
 	pom {
 		name = buildProperties.projectName
@@ -269,7 +278,8 @@ allprojects {
 						Runnable {
 							register("jacocoAggregation") {
 								id = "dev.jaronline.reporting.jacoco.aggregation"
-								implementationClass = "dev.jaronline.gradle.reporting.aggregation.JacocoAggregationPlugin"
+								implementationClass =
+									"dev.jaronline.gradle.reporting.aggregation.JacocoAggregationPlugin"
 							}
 						},
 					":testing" to

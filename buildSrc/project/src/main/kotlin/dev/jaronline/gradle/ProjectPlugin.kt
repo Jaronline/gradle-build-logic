@@ -1,6 +1,5 @@
 package dev.jaronline.gradle
 
-import com.diffplug.spotless.changelog.gradle.ChangelogExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -22,16 +21,13 @@ import org.gradle.plugins.ide.idea.model.IdeaModel
 class ProjectPlugin : Plugin<Project> {
 	override fun apply(project: Project): Unit = project.run {
 		pluginManager.apply(BuildPropertiesPlugin::class.java)
-		pluginManager.apply(ChangelogPlugin::class.java)
 		pluginManager.apply(JavaPlugin::class.java)
 		pluginManager.apply(IdeaPlugin::class.java)
 		pluginManager.apply(EclipsePlugin::class.java)
 
 		val buildProperties = the<BuildPropertiesExtension>()
-		val spotlessChangelog = the<ChangelogExtension>()
 
 		group = buildProperties.groupId.get()
-		version = buildProperties.projectVersion.getOrElse(spotlessChangelog.versionNext)
 
 		extensions.configure<JavaPluginExtension> {
 			toolchain {
