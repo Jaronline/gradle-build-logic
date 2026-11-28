@@ -41,6 +41,11 @@ versions:
       - any-glob-to-any-file:
           - publish/*
           - publish/**/*
+"module: reporting":
+  - changed-files:
+      - any-glob-to-any-file:
+          - reporting/*
+          - reporting/**/*
 "module: testing":
   - changed-files:
       - any-glob-to-any-file:

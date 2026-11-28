@@ -13,5 +13,7 @@ labels:
     color: "C81CDE"
   - name: "module: publish"
     color: "C81CDE"
+  - name: "module: reporting"
+    color: "C81CDE"
   - name: "module: testing"
     color: "C81CDE"
