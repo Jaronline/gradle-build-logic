@@ -42,5 +42,6 @@ include(
 	"formatting",
 	"publish",
 	"project",
+	"reporting",
 	"testing",
 )
