@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 ### Added
 
 - JaCoCo report aggregation plugin
+- JaCoCo report task and test suite aggregation extension methods
 
 ### Changed
 
