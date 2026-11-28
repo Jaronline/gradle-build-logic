@@ -269,7 +269,7 @@ allprojects {
 						Runnable {
 							register("jacocoAggregation") {
 								id = "dev.jaronline.reporting.jacoco.aggregation"
-								implementationClass = "dev.jaronline.gradle.reporting.JacocoAggregationPlugin"
+								implementationClass = "dev.jaronline.gradle.reporting.aggregation.JacocoAggregationPlugin"
 							}
 						},
 					":testing" to
